@@ -2,19 +2,19 @@
   <a-layout>
     <The-header></The-header>
     <router-view/>
-    <a-layout-footer style="text-align: center">
-      电子书
-    </a-layout-footer>
+    <the-footer></the-footer>
   </a-layout>
 </template>
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
 import TheHeader from '@/components/The-header.vue';
+import TheFooter from '@/components/The-footer.vue'
 
 export default defineComponent({
   name: 'app',
   components: {
-    TheHeader
+    TheHeader,
+    TheFooter
   },
   setup() {
     return {
