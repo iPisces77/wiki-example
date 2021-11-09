@@ -1,16 +1,32 @@
 package com.example.wiki.domain;
 
+import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
- * @author 付海鑫
- * @date 2021年11月09日 13:41
+ * 测试
  */
 @Data
-@RequiredArgsConstructor
-public class Test {
-  private Integer id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class Test implements Serializable {
+
+  /**
+   * id
+   */
+  private Long id;
+
+  /**
+   * 名称
+   */
   private String name;
+
+  /**
+   * 密码
+   */
   private String password;
+
+  private static final long serialVersionUID = 1L;
 }

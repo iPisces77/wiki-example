@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wiki.mapper.EbookSnapshotMapper">
+  <resultMap id="BaseResultMap" type="com.example.wiki.domain.EbookSnapshot">
+    <!--@mbg.generated-->
+    <!--@Table wikidev.ebook_snapshot-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ebook_id" jdbcType="BIGINT" property="ebookId" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="view_count" jdbcType="INTEGER" property="viewCount" />
+    <result column="vote_count" jdbcType="INTEGER" property="voteCount" />
+    <result column="view_increase" jdbcType="INTEGER" property="viewIncrease" />
+    <result column="vote_increase" jdbcType="INTEGER" property="voteIncrease" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, ebook_id, `date`, view_count, vote_count, view_increase, vote_increase
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from wikidev.ebook_snapshot
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from wikidev.ebook_snapshot
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into wikidev.ebook_snapshot (ebook_id, `date`, view_count, 
+      vote_count, view_increase, vote_increase
+      )
+    values (#{ebookId,jdbcType=BIGINT}, #{date,jdbcType=DATE}, #{viewCount,jdbcType=INTEGER}, 
+      #{voteCount,jdbcType=INTEGER}, #{viewIncrease,jdbcType=INTEGER}, #{voteIncrease,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into wikidev.ebook_snapshot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ebookId != null">
+        ebook_id,
+      </if>
+      <if test="date != null">
+        `date`,
+      </if>
+      <if test="viewCount != null">
+        view_count,
+      </if>
+      <if test="voteCount != null">
+        vote_count,
+      </if>
+      <if test="viewIncrease != null">
+        view_increase,
+      </if>
+      <if test="voteIncrease != null">
+        vote_increase,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ebookId != null">
+        #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="viewCount != null">
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        #{voteCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewIncrease != null">
+        #{viewIncrease,jdbcType=INTEGER},
+      </if>
+      <if test="voteIncrease != null">
+        #{voteIncrease,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.wiki.domain.EbookSnapshot">
+    <!--@mbg.generated-->
+    update wikidev.ebook_snapshot
+    <set>
+      <if test="ebookId != null">
+        ebook_id = #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        `date` = #{date,jdbcType=DATE},
+      </if>
+      <if test="viewCount != null">
+        view_count = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        vote_count = #{voteCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewIncrease != null">
+        view_increase = #{viewIncrease,jdbcType=INTEGER},
+      </if>
+      <if test="voteIncrease != null">
+        vote_increase = #{voteIncrease,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.wiki.domain.EbookSnapshot">
+    <!--@mbg.generated-->
+    update wikidev.ebook_snapshot
+    set ebook_id = #{ebookId,jdbcType=BIGINT},
+      `date` = #{date,jdbcType=DATE},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      vote_count = #{voteCount,jdbcType=INTEGER},
+      view_increase = #{viewIncrease,jdbcType=INTEGER},
+      vote_increase = #{voteIncrease,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update wikidev.ebook_snapshot
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ebook_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.ebookId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="`date` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.date,jdbcType=DATE}
+        </foreach>
+      </trim>
+      <trim prefix="view_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.viewCount,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="vote_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.voteCount,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="view_increase = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.viewIncrease,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="vote_increase = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.voteIncrease,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update wikidev.ebook_snapshot
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ebook_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.ebookId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.ebookId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`date` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.date != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.date,jdbcType=DATE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="view_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.viewCount != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.viewCount,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="vote_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.voteCount != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.voteCount,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="view_increase = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.viewIncrease != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.viewIncrease,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="vote_increase = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.voteIncrease != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.voteIncrease,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into wikidev.ebook_snapshot
+    (ebook_id, `date`, view_count, vote_count, view_increase, vote_increase)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.ebookId,jdbcType=BIGINT}, #{item.date,jdbcType=DATE}, #{item.viewCount,jdbcType=INTEGER}, 
+        #{item.voteCount,jdbcType=INTEGER}, #{item.viewIncrease,jdbcType=INTEGER}, #{item.voteIncrease,jdbcType=INTEGER}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into wikidev.ebook_snapshot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      ebook_id,
+      `date`,
+      view_count,
+      vote_count,
+      view_increase,
+      vote_increase,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{ebookId,jdbcType=BIGINT},
+      #{date,jdbcType=DATE},
+      #{viewCount,jdbcType=INTEGER},
+      #{voteCount,jdbcType=INTEGER},
+      #{viewIncrease,jdbcType=INTEGER},
+      #{voteIncrease,jdbcType=INTEGER},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      ebook_id = #{ebookId,jdbcType=BIGINT},
+      `date` = #{date,jdbcType=DATE},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      vote_count = #{voteCount,jdbcType=INTEGER},
+      view_increase = #{viewIncrease,jdbcType=INTEGER},
+      vote_increase = #{voteIncrease,jdbcType=INTEGER},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into wikidev.ebook_snapshot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ebookId != null">
+        ebook_id,
+      </if>
+      <if test="date != null">
+        `date`,
+      </if>
+      <if test="viewCount != null">
+        view_count,
+      </if>
+      <if test="voteCount != null">
+        vote_count,
+      </if>
+      <if test="viewIncrease != null">
+        view_increase,
+      </if>
+      <if test="voteIncrease != null">
+        vote_increase,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ebookId != null">
+        #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="viewCount != null">
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        #{voteCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewIncrease != null">
+        #{viewIncrease,jdbcType=INTEGER},
+      </if>
+      <if test="voteIncrease != null">
+        #{voteIncrease,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ebookId != null">
+        ebook_id = #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        `date` = #{date,jdbcType=DATE},
+      </if>
+      <if test="viewCount != null">
+        view_count = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        vote_count = #{voteCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewIncrease != null">
+        view_increase = #{viewIncrease,jdbcType=INTEGER},
+      </if>
+      <if test="voteIncrease != null">
+        vote_increase = #{voteIncrease,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

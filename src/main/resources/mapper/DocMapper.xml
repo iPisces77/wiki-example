@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wiki.mapper.DocMapper">
+  <resultMap id="BaseResultMap" type="com.example.wiki.domain.Doc">
+    <!--@mbg.generated-->
+    <!--@Table wikidev.doc-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ebook_id" jdbcType="BIGINT" property="ebookId" />
+    <result column="parent" jdbcType="BIGINT" property="parent" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="view_count" jdbcType="INTEGER" property="viewCount" />
+    <result column="vote_count" jdbcType="INTEGER" property="voteCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, ebook_id, parent, `name`, sort, view_count, vote_count
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from wikidev.doc
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from wikidev.doc
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.wiki.domain.Doc">
+    <!--@mbg.generated-->
+    insert into wikidev.doc (id, ebook_id, parent, 
+      `name`, sort, view_count, 
+      vote_count)
+    values (#{id,jdbcType=BIGINT}, #{ebookId,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, 
+      #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
+      #{voteCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.wiki.domain.Doc">
+    <!--@mbg.generated-->
+    insert into wikidev.doc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ebookId != null">
+        ebook_id,
+      </if>
+      <if test="parent != null">
+        parent,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="viewCount != null">
+        view_count,
+      </if>
+      <if test="voteCount != null">
+        vote_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ebookId != null">
+        #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="parent != null">
+        #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        #{voteCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.wiki.domain.Doc">
+    <!--@mbg.generated-->
+    update wikidev.doc
+    <set>
+      <if test="ebookId != null">
+        ebook_id = #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="parent != null">
+        parent = #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        view_count = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        vote_count = #{voteCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.wiki.domain.Doc">
+    <!--@mbg.generated-->
+    update wikidev.doc
+    set ebook_id = #{ebookId,jdbcType=BIGINT},
+      parent = #{parent,jdbcType=BIGINT},
+      `name` = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      vote_count = #{voteCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update wikidev.doc
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ebook_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.ebookId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="parent = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.parent,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="`name` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="sort = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.sort,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="view_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.viewCount,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="vote_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.voteCount,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update wikidev.doc
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ebook_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.ebookId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.ebookId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="parent = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.parent != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.parent,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`name` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.name != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="sort = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.sort != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.sort,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="view_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.viewCount != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.viewCount,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="vote_count = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.voteCount != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.voteCount,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into wikidev.doc
+    (id, ebook_id, parent, `name`, sort, view_count, vote_count)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.ebookId,jdbcType=BIGINT}, #{item.parent,jdbcType=BIGINT}, 
+        #{item.name,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER}, #{item.viewCount,jdbcType=INTEGER}, 
+        #{item.voteCount,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.example.wiki.domain.Doc">
+    <!--@mbg.generated-->
+    insert into wikidev.doc
+    (id, ebook_id, parent, `name`, sort, view_count, vote_count)
+    values
+    (#{id,jdbcType=BIGINT}, #{ebookId,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{voteCount,jdbcType=INTEGER}
+      )
+    on duplicate key update 
+    id = #{id,jdbcType=BIGINT}, 
+    ebook_id = #{ebookId,jdbcType=BIGINT}, 
+    parent = #{parent,jdbcType=BIGINT}, 
+    `name` = #{name,jdbcType=VARCHAR}, 
+    sort = #{sort,jdbcType=INTEGER}, 
+    view_count = #{viewCount,jdbcType=INTEGER}, 
+    vote_count = #{voteCount,jdbcType=INTEGER}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.example.wiki.domain.Doc">
+    <!--@mbg.generated-->
+    insert into wikidev.doc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ebookId != null">
+        ebook_id,
+      </if>
+      <if test="parent != null">
+        parent,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="viewCount != null">
+        view_count,
+      </if>
+      <if test="voteCount != null">
+        vote_count,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ebookId != null">
+        #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="parent != null">
+        #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        #{voteCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ebookId != null">
+        ebook_id = #{ebookId,jdbcType=BIGINT},
+      </if>
+      <if test="parent != null">
+        parent = #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        view_count = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteCount != null">
+        vote_count = #{voteCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
