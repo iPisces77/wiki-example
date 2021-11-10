@@ -7,7 +7,7 @@ import java.util.Objects;
  * @author 付海鑫
  * @date 2021年11月09日 16:52
  */
-public class EBookResponse implements Serializable {
+public class EBookQueryResponse implements Serializable {
   private static final long serialVersionUID = 1L;
   /** id */
   private Long id;
@@ -28,9 +28,9 @@ public class EBookResponse implements Serializable {
   /** 点赞数 */
   private Integer voteCount;
 
-  public EBookResponse() {}
+  public EBookQueryResponse() {}
 
-  public EBookResponse(
+  public EBookQueryResponse(
       Long id,
       String name,
       Long category1Id,
@@ -59,7 +59,7 @@ public class EBookResponse implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    EBookResponse that = (EBookResponse) o;
+    EBookQueryResponse that = (EBookQueryResponse) o;
     return getId().equals(that.getId())
         && getName().equals(that.getName())
         && getCategory1Id().equals(that.getCategory1Id())

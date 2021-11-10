@@ -2,17 +2,12 @@
   <a-layout>
     <a-layout-sider style="background: #fff" width="200">
       <a-menu
-          v-model:openKeys="openKeys"
-          v-model:selectedKeys="selectedKeys2"
           :style="{ height: '100%', borderRight: 0 }"
           mode="inline"
       >
         <a-sub-menu key="sub1">
           <template #title>
-              <span>
-                <user-outlined/>
-                subnav 1
-              </span>
+            <span><user-outlined/>subnav 11111</span>
           </template>
           <a-menu-item key="1">option1</a-menu-item>
           <a-menu-item key="2">option2</a-menu-item>
@@ -21,10 +16,7 @@
         </a-sub-menu>
         <a-sub-menu key="sub2">
           <template #title>
-              <span>
-                <laptop-outlined/>
-                subnav 2
-              </span>
+            <span><laptop-outlined/>subnav 2</span>
           </template>
           <a-menu-item key="5">option5</a-menu-item>
           <a-menu-item key="6">option6</a-menu-item>
@@ -33,10 +25,7 @@
         </a-sub-menu>
         <a-sub-menu key="sub3">
           <template #title>
-              <span>
-                <notification-outlined/>
-                subnav 3
-              </span>
+            <span><notification-outlined/>subnav 3</span>
           </template>
           <a-menu-item key="9">option9</a-menu-item>
           <a-menu-item key="10">option10</a-menu-item>
@@ -48,28 +37,22 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
-      <a-list :data-source="ebook" :grid="{ gutter: 20, column: 3 }"
-              item-layout="vertical" size="large">
-        <template #footer>
-          <div>
-            <b>ant design vue</b>
-            footer part
-          </div>
-        </template>
+      <a-list :data-source="ebooks" :grid="{ gutter: 20, column: 3 }" item-layout="vertical"
+              size="large">
         <template #renderItem="{ item }">
           <a-list-item key="item.name">
             <template #actions>
-          <span v-for="{ type, text } in actions" :key="type">
-            <component v-bind:is="type" style="margin-right: 8px"/>
-            {{ text }}
-          </span>
+              <span v-for="{ type, text } in actions" :key="type">
+                <component v-bind:is="type" style="margin-right: 8px"/>
+                {{ text }}
+              </span>
             </template>
             <a-list-item-meta :description="item.description">
               <template #title>
                 <a :href="item.href">{{ item.name }}</a>
               </template>
               <template #avatar>
-                <a-avatar :size="50" :src="item.cover" shape="square"/>
+                <a-avatar :src="item.cover"/>
               </template>
             </a-list-item-meta>
           </a-list-item>
@@ -81,10 +64,9 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref, toRef} from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue';
-import axios from "axios"; // @ is an alias to /src
-const listData: Record<string, string>[] = [];
+import axios from 'axios';
 
+const listData: any = [];
 for (let i = 0; i < 23; i++) {
   listData.push({
     href: 'https://www.antdv.com/',
@@ -97,47 +79,46 @@ for (let i = 0; i < 23; i++) {
   });
 }
 
-
 export default defineComponent({
   name: 'Home',
-  components: {
-    HelloWorld,
-
-  },
   setup() {
-    console.log("setup");
-    const ebook = ref()
-    const ebook1 = reactive({books: []})
-    const pagination = {
-      onChange: (page: number) => {
-        console.log(page);
-      },
-      pageSize: 3,
-    };
-    const actions: Record<string, string>[] = [
-      {type: 'StarOutlined', text: '156'},
-      {type: 'LikeOutlined', text: '156'},
-      {type: 'MessageOutlined', text: '2'},
-    ];
+    const ebooks = ref();
+    const ebooks1 = reactive({books: []});
+
     onMounted(() => {
-      console.log("onMounted")
-
-      axios.get("/ebook/list?name=教程").then((response) => {
-        const data = response.data
-        ebook.value = data.content
-        ebook1.books = data.content;
-        console.log(response)
-      })
+      axios.get("/ebook/list").then((response) => {
+        const data = response.data;
+        ebooks.value = data.content;
+        ebooks1.books = data.content;
+      });
     });
-    return {
-      ebook, books: toRef(ebook1, "books"
-      ), listData,
-      pagination,
-      actions
-    }
-        ;
 
+    return {
+      ebooks,
+      ebooks2: toRef(ebooks1, "books"),
+      listData,
+      pagination: {
+        onChange: (page: any) => {
+          console.log(page);
+        },
+        pageSize: 3,
+      },
+      actions: [
+        {type: 'StarOutlined', text: '156'},
+        {type: 'LikeOutlined', text: '156'},
+        {type: 'MessageOutlined', text: '2'},
+      ],
+    }
   }
 });
-
 </script>
+
+<style scoped>
+.ant-avatar {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 8%;
+  margin: 5px 0;
+}
+</style>
