@@ -1,6 +1,5 @@
 package com.example.wiki.config;
 
-import com.example.wiki.interceptor.ActionInterceptor;
 import com.example.wiki.interceptor.LoginInterceptor;
 import javax.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +11,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
   @Resource LoginInterceptor loginInterceptor;
 
-  @Resource ActionInterceptor actionInterceptor;
+  //  @Resource ActionInterceptor actionInterceptor;
 
   public void addInterceptors(InterceptorRegistry registry) {
     registry
@@ -29,8 +28,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
             "/doc/find-content/**",
             "/ebook-snapshot/**");
 
-    registry
-        .addInterceptor(actionInterceptor)
-        .addPathPatterns("/*/save", "/*/delete/**", "/*/reset-password");
+    //    registry
+    //        .addInterceptor(actionInterceptor)
+    //        .addPathPatterns("/*/save", "/*/delete/**", "/*/reset-password");
   }
 }
