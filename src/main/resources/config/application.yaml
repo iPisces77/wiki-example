@@ -8,3 +8,6 @@ spring:
     url: jdbc:mysql://localhost:3306/wikidev
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
+logging:
+  level:
+    com.example.wiki.mapper: trace

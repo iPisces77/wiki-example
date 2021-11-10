@@ -2,51 +2,149 @@ package com.example.wiki.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Objects;
 
-/**
-    * 电子书快照表
-    */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+/** 电子书快照表 */
 public class EbookSnapshot implements Serializable {
-    /**
-    * id
-    */
-    private Long id;
 
-    /**
-    * 电子书id
-    */
-    private Long ebookId;
+  private static final long serialVersionUID = 1L;
+  /** id */
+  private Long id;
+  /** 电子书id */
+  private Long ebookId;
+  /** 快照日期 */
+  private Date date;
+  /** 阅读数 */
+  private Integer viewCount;
+  /** 点赞数 */
+  private Integer voteCount;
+  /** 阅读增长 */
+  private Integer viewIncrease;
+  /** 点赞增长 */
+  private Integer voteIncrease;
 
-    /**
-    * 快照日期
-    */
-    private Date date;
+  public EbookSnapshot() {}
 
-    /**
-    * 阅读数
-    */
-    private Integer viewCount;
+  public EbookSnapshot(
+      Long id,
+      Long ebookId,
+      Date date,
+      Integer viewCount,
+      Integer voteCount,
+      Integer viewIncrease,
+      Integer voteIncrease) {
+    this.id = id;
+    this.ebookId = ebookId;
+    this.date = date;
+    this.viewCount = viewCount;
+    this.voteCount = voteCount;
+    this.viewIncrease = viewIncrease;
+    this.voteIncrease = voteIncrease;
+  }
 
-    /**
-    * 点赞数
-    */
-    private Integer voteCount;
+  @Override
+  public String toString() {
+    return "EbookSnapshot{"
+        + "id="
+        + id
+        + ", ebookId="
+        + ebookId
+        + ", date="
+        + date
+        + ", viewCount="
+        + viewCount
+        + ", voteCount="
+        + voteCount
+        + ", viewIncrease="
+        + viewIncrease
+        + ", voteIncrease="
+        + voteIncrease
+        + '}';
+  }
 
-    /**
-    * 阅读增长
-    */
-    private Integer viewIncrease;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EbookSnapshot that = (EbookSnapshot) o;
+    return getId().equals(that.getId())
+        && getEbookId().equals(that.getEbookId())
+        && getDate().equals(that.getDate())
+        && getViewCount().equals(that.getViewCount())
+        && getVoteCount().equals(that.getVoteCount())
+        && getViewIncrease().equals(that.getViewIncrease())
+        && getVoteIncrease().equals(that.getVoteIncrease());
+  }
 
-    /**
-    * 点赞增长
-    */
-    private Integer voteIncrease;
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        getId(),
+        getEbookId(),
+        getDate(),
+        getViewCount(),
+        getVoteCount(),
+        getViewIncrease(),
+        getVoteIncrease());
+  }
 
-    private static final long serialVersionUID = 1L;
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Long getEbookId() {
+    return ebookId;
+  }
+
+  public void setEbookId(Long ebookId) {
+    this.ebookId = ebookId;
+  }
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
+  public Integer getViewCount() {
+    return viewCount;
+  }
+
+  public void setViewCount(Integer viewCount) {
+    this.viewCount = viewCount;
+  }
+
+  public Integer getVoteCount() {
+    return voteCount;
+  }
+
+  public void setVoteCount(Integer voteCount) {
+    this.voteCount = voteCount;
+  }
+
+  public Integer getViewIncrease() {
+    return viewIncrease;
+  }
+
+  public void setViewIncrease(Integer viewIncrease) {
+    this.viewIncrease = viewIncrease;
+  }
+
+  public Integer getVoteIncrease() {
+    return voteIncrease;
+  }
+
+  public void setVoteIncrease(Integer voteIncrease) {
+    this.voteIncrease = voteIncrease;
+  }
 }

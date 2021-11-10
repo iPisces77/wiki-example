@@ -5,13 +5,18 @@ import com.example.wiki.domain.Ebook;
 import com.example.wiki.mapper.EbookMapper;
 import com.example.wiki.request.EBookRequest;
 import com.example.wiki.response.EBookResponse;
+import com.example.wiki.response.PageResponse;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import java.util.List;
 import javax.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EbookService {
-
+  private static final Logger LOG = LoggerFactory.getLogger(EbookService.class);
   private final EBookConverter converter;
   @Resource private EbookMapper ebookMapper;
 
@@ -63,8 +68,20 @@ public class EbookService {
     return ebookMapper.batchInsert(list);
   }
 
-  public List<EBookResponse> list(EBookRequest name) {
-    var list = ebookMapper.list(name);
-    return converter.do2voList(list);
+  public PageResponse<EBookResponse> list(EBookRequest request) {
+    PageMethod.startPage(request.getPage(), request.getSize());
+
+    var list = ebookMapper.list(request);
+    var ebookPageInfo = new PageInfo<Ebook>(list);
+    var total = ebookPageInfo.getTotal();
+    LOG.info("总行数:{}", total);
+    var pages = ebookPageInfo.getPages();
+    LOG.info("总页数:{}", pages);
+    var eBookResponses = converter.do2voList(list);
+    var eBookResponsePageResponse = new PageResponse<EBookResponse>();
+    eBookResponsePageResponse.setList(eBookResponses);
+    eBookResponsePageResponse.setTotal(total);
+
+    return eBookResponsePageResponse;
   }
 }

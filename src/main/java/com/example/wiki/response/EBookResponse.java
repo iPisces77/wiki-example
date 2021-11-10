@@ -1,17 +1,12 @@
 package com.example.wiki.response;
 
 import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Objects;
 
 /**
  * @author 付海鑫
  * @date 2021年11月09日 16:52
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class EBookResponse implements Serializable {
   private static final long serialVersionUID = 1L;
   /** id */
@@ -32,4 +27,133 @@ public class EBookResponse implements Serializable {
   private Integer viewCount;
   /** 点赞数 */
   private Integer voteCount;
+
+  public EBookResponse() {}
+
+  public EBookResponse(
+      Long id,
+      String name,
+      Long category1Id,
+      Long category2Id,
+      String description,
+      String cover,
+      Integer docCount,
+      Integer viewCount,
+      Integer voteCount) {
+    this.id = id;
+    this.name = name;
+    this.category1Id = category1Id;
+    this.category2Id = category2Id;
+    this.description = description;
+    this.cover = cover;
+    this.docCount = docCount;
+    this.viewCount = viewCount;
+    this.voteCount = voteCount;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EBookResponse that = (EBookResponse) o;
+    return getId().equals(that.getId())
+        && getName().equals(that.getName())
+        && getCategory1Id().equals(that.getCategory1Id())
+        && getCategory2Id().equals(that.getCategory2Id())
+        && getDescription().equals(that.getDescription())
+        && getCover().equals(that.getCover())
+        && getDocCount().equals(that.getDocCount())
+        && getViewCount().equals(that.getViewCount())
+        && getVoteCount().equals(that.getVoteCount());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        getId(),
+        getName(),
+        getCategory1Id(),
+        getCategory2Id(),
+        getDescription(),
+        getCover(),
+        getDocCount(),
+        getViewCount(),
+        getVoteCount());
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Long getCategory1Id() {
+    return category1Id;
+  }
+
+  public void setCategory1Id(Long category1Id) {
+    this.category1Id = category1Id;
+  }
+
+  public Long getCategory2Id() {
+    return category2Id;
+  }
+
+  public void setCategory2Id(Long category2Id) {
+    this.category2Id = category2Id;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getCover() {
+    return cover;
+  }
+
+  public void setCover(String cover) {
+    this.cover = cover;
+  }
+
+  public Integer getDocCount() {
+    return docCount;
+  }
+
+  public void setDocCount(Integer docCount) {
+    this.docCount = docCount;
+  }
+
+  public Integer getViewCount() {
+    return viewCount;
+  }
+
+  public void setViewCount(Integer viewCount) {
+    this.viewCount = viewCount;
+  }
+
+  public Integer getVoteCount() {
+    return voteCount;
+  }
+
+  public void setVoteCount(Integer voteCount) {
+    this.voteCount = voteCount;
+  }
 }
