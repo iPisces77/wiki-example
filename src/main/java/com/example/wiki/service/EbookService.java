@@ -7,6 +7,7 @@ import com.example.wiki.request.EBookQueryRequest;
 import com.example.wiki.request.EBookSaveRequest;
 import com.example.wiki.response.EBookQueryResponse;
 import com.example.wiki.response.PageResponse;
+import com.example.wiki.utils.SnowFlake;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
 import java.util.List;
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
 public class EbookService {
   private static final Logger LOG = LoggerFactory.getLogger(EbookService.class);
   private final EBookConverter converter;
+  private final SnowFlake snowflake;
   @Resource private EbookMapper ebookMapper;
 
-  public EbookService(EBookConverter converter) {
+  public EbookService(EBookConverter converter, SnowFlake snowflake) {
     this.converter = converter;
+    this.snowflake = snowflake;
   }
 
   public int deleteByPrimaryKey(Long id) {
@@ -88,9 +91,12 @@ public class EbookService {
   public void save(EBookSaveRequest request) {
     var ebook = converter.vo2Do(request);
     if (Objects.nonNull(ebook.getId())) {
+
       ebookMapper.updateByPrimaryKey(ebook);
     } else {
-      ebookMapper.insert(ebook);
+      var id = snowflake.nextId();
+      ebook.setId(id);
+      ebookMapper.insertSelective(ebook);
     }
   }
 }

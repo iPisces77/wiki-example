@@ -1,13 +1,10 @@
 package com.example.wiki.config;
 
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @MapperScan("com.example.wiki.mapper")
@@ -19,10 +16,5 @@ public class WikiApplication {
   public static void main(String[] args) {
     SpringApplication.run(WikiApplication.class, args);
     LOG.info("启动成功！！");
-  }
-
-  @Bean
-  Snowflake snowflake() {
-    return IdUtil.getSnowflake();
   }
 }

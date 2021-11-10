@@ -1,9 +1,9 @@
 package com.example.wiki.aspect;
 
-import cn.hutool.core.lang.Snowflake;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.example.wiki.utils.RequestContext;
+import com.example.wiki.utils.SnowFlake;
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -28,10 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class LogAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(LogAspect.class);
-  @Resource private Snowflake snowFlake;
+  @Resource private SnowFlake snowFlake;
 
   /** 定义一个切点 */
-  @Pointcut("execution(public * com.jiawa.*.controller..*Controller.*(..))")
+  @Pointcut("execution(public * com.example.*.controller..*Controller.*(..))")
   public void controllerPointcut() {}
 
   @Before("controllerPointcut()")
