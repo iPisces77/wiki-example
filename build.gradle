@@ -27,7 +27,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.78'
     implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.0'
     implementation 'cn.hutool:hutool-all:5.7.16'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'com.google.guava:guava:31.0.1-jre'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
@@ -36,7 +36,6 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     runtimeOnly 'mysql:mysql-connector-java'
-
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

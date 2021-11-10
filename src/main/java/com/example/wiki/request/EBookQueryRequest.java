@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /** 电子书 */
-public class EBookRequest extends PageRequest implements Serializable {
+public class EBookQueryRequest extends PageRequest implements Serializable {
   private static final long serialVersionUID = 1L;
   /** id */
   private Long id;
   /** 名称 */
   private String name;
 
-  public EBookRequest() {}
+  public EBookQueryRequest() {}
 
-  public EBookRequest(Long id, String name) {
+  public EBookQueryRequest(Long id, String name) {
     this.id = id;
     this.name = name;
   }
@@ -31,7 +31,7 @@ public class EBookRequest extends PageRequest implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    EBookRequest that = (EBookRequest) o;
+    EBookQueryRequest that = (EBookQueryRequest) o;
     return getId().equals(that.getId()) && getName().equals(that.getName());
   }
 

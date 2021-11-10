@@ -36,13 +36,13 @@
   <insert id="insert" parameterType="com.example.wiki.domain.Ebook">
     <!--@mbg.generated-->
     insert into wikidev.ebook (id, `name`, category1_id,
-                               category2_id, description, cover,
-                               doc_count, view_count, vote_count)
+    category2_id, description, cover,
+    doc_count, view_count, vote_count)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{category1Id,jdbcType=BIGINT},
-            #{category2Id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR},
-            #{cover,jdbcType=VARCHAR},
-            #{docCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER},
-            #{voteCount,jdbcType=INTEGER})
+    #{category2Id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR},
+    #{cover,jdbcType=VARCHAR},
+    #{docCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER},
+    #{voteCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.wiki.domain.Ebook">
     <!--@mbg.generated-->
@@ -140,14 +140,14 @@
   <update id="updateByPrimaryKey" parameterType="com.example.wiki.domain.Ebook">
     <!--@mbg.generated-->
     update wikidev.ebook
-    set `name`       = #{name,jdbcType=VARCHAR},
-        category1_id = #{category1Id,jdbcType=BIGINT},
-        category2_id = #{category2Id,jdbcType=BIGINT},
-        description  = #{description,jdbcType=VARCHAR},
-        cover        = #{cover,jdbcType=VARCHAR},
-        doc_count    = #{docCount,jdbcType=INTEGER},
-        view_count   = #{viewCount,jdbcType=INTEGER},
-        vote_count   = #{voteCount,jdbcType=INTEGER}
+    set `name` = #{name,jdbcType=VARCHAR},
+    category1_id = #{category1Id,jdbcType=BIGINT},
+    category2_id = #{category2Id,jdbcType=BIGINT},
+    description = #{description,jdbcType=VARCHAR},
+    cover = #{cover,jdbcType=VARCHAR},
+    doc_count = #{docCount,jdbcType=INTEGER},
+    view_count = #{viewCount,jdbcType=INTEGER},
+    vote_count = #{voteCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateBatch" parameterType="java.util.List">
@@ -269,37 +269,37 @@
   <insert id="batchInsert" parameterType="map">
     <!--@mbg.generated-->
     insert into wikidev.ebook
-      (id, `name`, category1_id, category2_id, description, cover, doc_count, view_count,
-       vote_count)
-      values
+    (id, `name`, category1_id, category2_id, description, cover, doc_count, view_count,
+    vote_count)
+    values
     <foreach collection="list" item="item" separator=",">
       (#{item.id,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR},
-       #{item.category1Id,jdbcType=BIGINT},
-       #{item.category2Id,jdbcType=BIGINT}, #{item.description,jdbcType=VARCHAR},
-       #{item.cover,jdbcType=VARCHAR},
-       #{item.docCount,jdbcType=INTEGER}, #{item.viewCount,jdbcType=INTEGER},
-       #{item.voteCount,jdbcType=INTEGER})
+      #{item.category1Id,jdbcType=BIGINT},
+      #{item.category2Id,jdbcType=BIGINT}, #{item.description,jdbcType=VARCHAR},
+      #{item.cover,jdbcType=VARCHAR},
+      #{item.docCount,jdbcType=INTEGER}, #{item.viewCount,jdbcType=INTEGER},
+      #{item.voteCount,jdbcType=INTEGER})
     </foreach>
   </insert>
   <insert id="insertOrUpdate" parameterType="com.example.wiki.domain.Ebook">
     <!--@mbg.generated-->
     insert into wikidev.ebook
-      (id, `name`, category1_id, category2_id, description, cover, doc_count, view_count,
-       vote_count)
+    (id, `name`, category1_id, category2_id, description, cover, doc_count, view_count,
+    vote_count)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{category1Id,jdbcType=BIGINT},
-            #{category2Id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR},
-            #{cover,jdbcType=VARCHAR},
-            #{docCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER},
-            #{voteCount,jdbcType=INTEGER})
-    on duplicate key update id           = #{id,jdbcType=BIGINT},
-                            `name`       = #{name,jdbcType=VARCHAR},
-                            category1_id = #{category1Id,jdbcType=BIGINT},
-                            category2_id = #{category2Id,jdbcType=BIGINT},
-                            description  = #{description,jdbcType=VARCHAR},
-                            cover        = #{cover,jdbcType=VARCHAR},
-                            doc_count    = #{docCount,jdbcType=INTEGER},
-                            view_count   = #{viewCount,jdbcType=INTEGER},
-                            vote_count   = #{voteCount,jdbcType=INTEGER}
+    #{category2Id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR},
+    #{cover,jdbcType=VARCHAR},
+    #{docCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER},
+    #{voteCount,jdbcType=INTEGER})
+    on duplicate key update id = #{id,jdbcType=BIGINT},
+    `name` = #{name,jdbcType=VARCHAR},
+    category1_id = #{category1Id,jdbcType=BIGINT},
+    category2_id = #{category2Id,jdbcType=BIGINT},
+    description = #{description,jdbcType=VARCHAR},
+    cover = #{cover,jdbcType=VARCHAR},
+    doc_count = #{docCount,jdbcType=INTEGER},
+    view_count = #{viewCount,jdbcType=INTEGER},
+    vote_count = #{voteCount,jdbcType=INTEGER}
   </insert>
   <insert id="insertOrUpdateSelective" parameterType="com.example.wiki.domain.Ebook">
     <!--@mbg.generated-->
@@ -395,16 +395,17 @@
     </trim>
   </insert>
 
-  <select id="list" parameterType="com.example.wiki.request.EBookRequest" resultMap="BaseResultMap">
+  <select id="list" parameterType="com.example.wiki.request.EBookQueryRequest"
+    resultMap="BaseResultMap">
     select id,
-           name,
-           category1_id,
-           category2_id,
-           description,
-           cover,
-           doc_count,
-           view_count,
-           vote_count
+    name,
+    category1_id,
+    category2_id,
+    description,
+    cover,
+    doc_count,
+    view_count,
+    vote_count
     from wikidev.ebook e
     <where>
       <if test="request != null">

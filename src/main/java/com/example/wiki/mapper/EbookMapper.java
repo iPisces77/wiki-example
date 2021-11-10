@@ -1,7 +1,7 @@
 package com.example.wiki.mapper;
 
 import com.example.wiki.domain.Ebook;
-import com.example.wiki.request.EBookRequest;
+import com.example.wiki.request.EBookQueryRequest;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -66,5 +66,5 @@ public interface EbookMapper {
 
   int batchInsert(@Param("list") List<Ebook> list);
 
-  List<Ebook> list(@Param("request") EBookRequest request);
+  List<Ebook> list(@Param("request") EBookQueryRequest request);
 }

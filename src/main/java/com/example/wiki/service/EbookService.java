@@ -3,12 +3,14 @@ package com.example.wiki.service;
 import com.example.wiki.converter.EBookConverter;
 import com.example.wiki.domain.Ebook;
 import com.example.wiki.mapper.EbookMapper;
-import com.example.wiki.request.EBookRequest;
+import com.example.wiki.request.EBookQueryRequest;
+import com.example.wiki.request.EBookSaveRequest;
 import com.example.wiki.response.EBookResponse;
 import com.example.wiki.response.PageResponse;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,9 +70,8 @@ public class EbookService {
     return ebookMapper.batchInsert(list);
   }
 
-  public PageResponse<EBookResponse> list(EBookRequest request) {
+  public PageResponse<EBookResponse> list(EBookQueryRequest request) {
     PageMethod.startPage(request.getPage(), request.getSize());
-
     var list = ebookMapper.list(request);
     var ebookPageInfo = new PageInfo<Ebook>(list);
     var total = ebookPageInfo.getTotal();
@@ -81,7 +82,15 @@ public class EbookService {
     var eBookResponsePageResponse = new PageResponse<EBookResponse>();
     eBookResponsePageResponse.setList(eBookResponses);
     eBookResponsePageResponse.setTotal(total);
-
     return eBookResponsePageResponse;
+  }
+
+  public void save(EBookSaveRequest request) {
+    var ebook = converter.vo2Do(request);
+    if (Objects.nonNull(ebook.getId())) {
+      ebookMapper.updateByPrimaryKey(ebook);
+    } else {
+      ebookMapper.insert(ebook);
+    }
   }
 }

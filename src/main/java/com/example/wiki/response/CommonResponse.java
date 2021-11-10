@@ -1,5 +1,7 @@
 package com.example.wiki.response;
 
+import java.util.Objects;
+
 /**
  * @author 付海鑫
  * @date 2021年11月09日 16:02
@@ -15,13 +17,15 @@ public class CommonResponse<T> {
   /** 返回泛型数据，自定义类型 */
   private T content;
 
-  public boolean getSuccess() {
-    return success;
+  public CommonResponse() {}
+
+  public CommonResponse(boolean success, String message, T content) {
+    this.success = success;
+    this.message = message;
+    this.content = content;
   }
 
-  public void setSuccess(boolean success) {
-    this.success = success;
-  }
+
 
   public String getMessage() {
     return message;
@@ -37,6 +41,33 @@ public class CommonResponse<T> {
 
   public void setContent(T content) {
     this.content = content;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CommonResponse<?> that = (CommonResponse<?>) o;
+    return isSuccess() == that.isSuccess()
+        && getMessage().equals(that.getMessage())
+        && getContent().equals(that.getContent());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(isSuccess(), getMessage(), getContent());
+  }
+
+  public boolean isSuccess() {
+    return success;
+  }
+
+  public void setSuccess(boolean success) {
+    this.success = success;
   }
 
   @Override

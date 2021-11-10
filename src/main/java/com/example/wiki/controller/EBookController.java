@@ -1,6 +1,7 @@
 package com.example.wiki.controller;
 
-import com.example.wiki.request.EBookRequest;
+import com.example.wiki.request.EBookQueryRequest;
+import com.example.wiki.request.EBookSaveRequest;
 import com.example.wiki.response.CommonResponse;
 import com.example.wiki.response.EBookResponse;
 import com.example.wiki.response.PageResponse;
@@ -25,18 +26,16 @@ public class EBookController {
   }
 
   @GetMapping("/list")
-  public CommonResponse<PageResponse<EBookResponse>> list(EBookRequest request) {
+  public CommonResponse<PageResponse<EBookResponse>> list(EBookQueryRequest request) {
     var list = ebookService.list(request);
     var ebookCommonResponse = new CommonResponse<PageResponse<EBookResponse>>();
     ebookCommonResponse.setContent(list);
     return ebookCommonResponse;
   }
-
+  /** 保存 */
   @PostMapping("/save")
-  public CommonResponse<PageResponse<EBookResponse>> save(EBookRequest request) {
-    var list = ebookService.list(request);
-    var ebookCommonResponse = new CommonResponse<PageResponse<EBookResponse>>();
-    ebookCommonResponse.setContent(list);
-    return ebookCommonResponse;
+  public CommonResponse save(EBookSaveRequest request) {
+    ebookService.save(request);
+    return new CommonResponse<>();
   }
 }
