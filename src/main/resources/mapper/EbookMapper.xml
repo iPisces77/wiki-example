@@ -410,7 +410,10 @@
     <where>
       <if test="request != null">
         <if test="request.name != null and request.name != ''">
-          name like concat('%', #{request.name}, '%');
+          and name like concat('%', #{request.name}, '%')
+        </if>
+        <if test="request.categoryId2 != null and request.categoryId2 != ''">
+          and category2_id = #{request.category2Id}
         </if>
       </if>
     </where>

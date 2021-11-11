@@ -1,6 +1,7 @@
 package com.example.wiki.mapper;
 
 import com.example.wiki.domain.Doc;
+import com.example.wiki.request.DocQueryRequest;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,4 +65,8 @@ public interface DocMapper {
   int updateBatchSelective(@Param("list") List<Doc> list);
 
   int batchInsert(@Param("list") List<Doc> list);
+
+  List<Doc> list(@Param("request") DocQueryRequest request);
+
+  List<Doc> all();
 }

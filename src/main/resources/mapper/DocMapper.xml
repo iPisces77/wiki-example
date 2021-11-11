@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.wiki.mapper.DocMapper">
   <resultMap id="BaseResultMap" type="com.example.wiki.domain.Doc">
     <!--@mbg.generated-->
     <!--@Table wikidev.doc-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="ebook_id" jdbcType="BIGINT" property="ebookId" />
-    <result column="parent" jdbcType="BIGINT" property="parent" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="view_count" jdbcType="INTEGER" property="viewCount" />
-    <result column="vote_count" jdbcType="INTEGER" property="voteCount" />
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="ebook_id" jdbcType="BIGINT" property="ebookId"/>
+    <result column="parent" jdbcType="BIGINT" property="parent"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="sort" jdbcType="INTEGER" property="sort"/>
+    <result column="view_count" jdbcType="INTEGER" property="viewCount"/>
+    <result column="vote_count" jdbcType="INTEGER" property="voteCount"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -18,24 +19,25 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from wikidev.doc
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
-    delete from wikidev.doc
+    delete
+    from wikidev.doc
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.wiki.domain.Doc">
     <!--@mbg.generated-->
-    insert into wikidev.doc (id, ebook_id, parent, 
-      `name`, sort, view_count, 
-      vote_count)
-    values (#{id,jdbcType=BIGINT}, #{ebookId,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, 
-      #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
-      #{voteCount,jdbcType=INTEGER})
+    insert into wikidev.doc (id, ebook_id, parent,
+    `name`, sort, view_count,
+    vote_count)
+    values (#{id,jdbcType=BIGINT}, #{ebookId,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT},
+    #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER},
+    #{voteCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.wiki.domain.Doc">
     <!--@mbg.generated-->
@@ -116,11 +118,11 @@
     <!--@mbg.generated-->
     update wikidev.doc
     set ebook_id = #{ebookId,jdbcType=BIGINT},
-      parent = #{parent,jdbcType=BIGINT},
-      `name` = #{name,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER},
-      view_count = #{viewCount,jdbcType=INTEGER},
-      vote_count = #{voteCount,jdbcType=INTEGER}
+    parent = #{parent,jdbcType=BIGINT},
+    `name` = #{name,jdbcType=VARCHAR},
+    sort = #{sort,jdbcType=INTEGER},
+    view_count = #{viewCount,jdbcType=INTEGER},
+    vote_count = #{voteCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateBatch" parameterType="java.util.List">
@@ -221,26 +223,25 @@
     (id, ebook_id, parent, `name`, sort, view_count, vote_count)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.ebookId,jdbcType=BIGINT}, #{item.parent,jdbcType=BIGINT}, 
-        #{item.name,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER}, #{item.viewCount,jdbcType=INTEGER}, 
-        #{item.voteCount,jdbcType=INTEGER})
+      (#{item.id,jdbcType=BIGINT}, #{item.ebookId,jdbcType=BIGINT}, #{item.parent,jdbcType=BIGINT},
+      #{item.name,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER},
+      #{item.viewCount,jdbcType=INTEGER},
+      #{item.voteCount,jdbcType=INTEGER})
     </foreach>
   </insert>
   <insert id="insertOrUpdate" parameterType="com.example.wiki.domain.Doc">
     <!--@mbg.generated-->
     insert into wikidev.doc
     (id, ebook_id, parent, `name`, sort, view_count, vote_count)
-    values
-    (#{id,jdbcType=BIGINT}, #{ebookId,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{voteCount,jdbcType=INTEGER}
-      )
-    on duplicate key update 
-    id = #{id,jdbcType=BIGINT}, 
-    ebook_id = #{ebookId,jdbcType=BIGINT}, 
-    parent = #{parent,jdbcType=BIGINT}, 
-    `name` = #{name,jdbcType=VARCHAR}, 
-    sort = #{sort,jdbcType=INTEGER}, 
-    view_count = #{viewCount,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{ebookId,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT},
+    #{name,jdbcType=VARCHAR},
+    #{sort,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{voteCount,jdbcType=INTEGER})
+    on duplicate key update id = #{id,jdbcType=BIGINT},
+    ebook_id = #{ebookId,jdbcType=BIGINT},
+    parent = #{parent,jdbcType=BIGINT},
+    `name` = #{name,jdbcType=VARCHAR},
+    sort = #{sort,jdbcType=INTEGER},
+    view_count = #{viewCount,jdbcType=INTEGER},
     vote_count = #{voteCount,jdbcType=INTEGER}
   </insert>
   <insert id="insertOrUpdateSelective" parameterType="com.example.wiki.domain.Doc">
@@ -293,7 +294,7 @@
         #{voteCount,jdbcType=INTEGER},
       </if>
     </trim>
-    on duplicate key update 
+    on duplicate key update
     <trim suffixOverrides=",">
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
@@ -318,4 +319,14 @@
       </if>
     </trim>
   </insert>
+
+  <select id="list" resultMap="BaseResultMap">
+    select *
+    from wikidev.doc d;
+  </select>
+
+  <select id="all" resultMap="BaseResultMap">
+    select id, ebook_id, parent, name, sort, view_count, vote_count
+    from wikidev.doc d
+  </select>
 </mapper>

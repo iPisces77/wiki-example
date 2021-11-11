@@ -76,7 +76,7 @@ public class EbookService {
   public PageResponse<EBookQueryResponse> list(EBookQueryRequest request) {
     PageMethod.startPage(request.getPage(), request.getSize());
     var list = ebookMapper.list(request);
-    var ebookPageInfo = new PageInfo<Ebook>(list);
+    var ebookPageInfo = new PageInfo<>(list);
     var total = ebookPageInfo.getTotal();
     LOG.info("总行数:{}", total);
     var pages = ebookPageInfo.getPages();

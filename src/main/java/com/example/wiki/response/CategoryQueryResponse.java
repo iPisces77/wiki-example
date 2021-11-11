@@ -8,7 +8,7 @@ public class CategoryQueryResponse implements Serializable {
 
   private static final long serialVersionUID = 1L;
   /** id */
-  private Long id;
+  private String id;
   /** 父id */
   private Long parent;
   /** 名称 */
@@ -18,7 +18,7 @@ public class CategoryQueryResponse implements Serializable {
 
   public CategoryQueryResponse() {}
 
-  public CategoryQueryResponse(Long id, Long parent, String name, Integer sort) {
+  public CategoryQueryResponse(String id, Long parent, String name, Integer sort) {
     this.id = id;
     this.parent = parent;
     this.name = name;
@@ -60,11 +60,11 @@ public class CategoryQueryResponse implements Serializable {
     return Objects.hash(getId(), getParent(), getName(), getSort());
   }
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
