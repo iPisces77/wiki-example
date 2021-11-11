@@ -82,10 +82,19 @@ import {defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
 import {message} from 'ant-design-vue';
 import {Tool} from "@/util/tool";
+import {useRoute} from "vue-router";
 
 export default defineComponent({
   name: 'AdminDoc',
   setup() {
+    const route = useRoute();
+    console.log("路由：", route);
+    console.log("route.path：", route.path);
+    console.log("route.query：", route.query);
+    console.log("route.param：", route.params);
+    console.log("route.fullPath：", route.fullPath);
+    console.log("route.name：", route.name);
+    console.log("route.meta：", route.meta);
     const param = ref();
     param.value = {};
     const docs = ref();
@@ -177,8 +186,7 @@ export default defineComponent({
     const setDisable = (treeSelectData: any, id: any) => {
       // console.log(treeSelectData, id);
       // 遍历数组，即遍历某一层节点
-      for (let i = 0; i < treeSelectData.length; i++) {
-        const node = treeSelectData[i];
+      for (let node of treeSelectData) {
         if (node.id === id) {
           // 如果当前节点就是目标节点
           console.log("disabled", node);
@@ -188,8 +196,8 @@ export default defineComponent({
           // 遍历所有子节点，将所有子节点全部都加上disabled
           const children = node.children;
           if (Tool.isNotEmpty(children)) {
-            for (let j = 0; j < children.length; j++) {
-              setDisable(children, children[j].id)
+            for (let child of children) {
+              setDisable(children, child.id)
             }
           }
         } else {
@@ -222,7 +230,9 @@ export default defineComponent({
      */
     const add = () => {
       modalVisible.value = true;
-      doc.value = {};
+      doc.value = {
+        ebookId: route.query.ebookId
+      };
 
       treeSelectData.value = Tool.copy(level1.value);
 
