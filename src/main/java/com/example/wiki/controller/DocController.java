@@ -6,7 +6,10 @@ import com.example.wiki.response.CommonResponse;
 import com.example.wiki.response.DocQueryResponse;
 import com.example.wiki.response.PageResponse;
 import com.example.wiki.service.DocService;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,10 +55,17 @@ public class DocController {
     return new CommonResponse<>();
   }
 
-  @DeleteMapping("/delete/{id}")
-  public CommonResponse delete(@PathVariable(value = "id") Long id) {
+  @DeleteMapping("/delete/{idsStr}")
+  public CommonResponse delete(@PathVariable(value = "idsStr") String ids) {
     var commonResponse = new CommonResponse<>();
-    docService.deleteByPrimaryKey(id);
+    if (Objects.nonNull(ids)) {
+      var split = ids.split(",");
+      var strings = new ArrayList<String>(split.length);
+      Collections.addAll(strings, split);
+      docService.deleteByPrimaryKey(strings);
+      return commonResponse;
+    }
+    commonResponse.setSuccess(false);
     return commonResponse;
   }
 }

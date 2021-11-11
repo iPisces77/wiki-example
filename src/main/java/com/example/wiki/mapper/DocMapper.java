@@ -69,4 +69,6 @@ public interface DocMapper {
   List<Doc> list(@Param("request") DocQueryRequest request);
 
   List<Doc> all();
+
+  int deleteByPrimaryKeys(List<String> ids);
 }

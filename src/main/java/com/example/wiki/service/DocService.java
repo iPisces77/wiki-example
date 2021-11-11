@@ -32,6 +32,10 @@ public class DocService {
     return docMapper.deleteByPrimaryKey(id);
   }
 
+  public int deleteByPrimaryKey(List<String> ids) {
+    return docMapper.deleteByPrimaryKeys(ids);
+  }
+
   public int insert(Doc doc) {
     return docMapper.insert(doc);
   }
