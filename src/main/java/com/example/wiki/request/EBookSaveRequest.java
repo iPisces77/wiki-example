@@ -2,6 +2,7 @@ package com.example.wiki.request;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.validation.constraints.NotNull;
 
 /** 电子书 */
 public class EBookSaveRequest implements Serializable {
@@ -10,6 +11,7 @@ public class EBookSaveRequest implements Serializable {
   /** id */
   private Long id;
   /** 名称 */
+  @NotNull(message = "[名称]不能为空")
   private String name;
   /** 分类1 */
   private Long category1Id;

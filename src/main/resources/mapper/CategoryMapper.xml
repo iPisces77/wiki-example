@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.wiki.mapper.CategoryMapper">
   <resultMap id="BaseResultMap" type="com.example.wiki.domain.Category">
     <!--@mbg.generated-->
     <!--@Table wikidev.category-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="parent" jdbcType="BIGINT" property="parent" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="parent" jdbcType="BIGINT" property="parent"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="sort" jdbcType="INTEGER" property="sort"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -15,22 +16,23 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from wikidev.category
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
-    delete from wikidev.category
+    delete
+    from wikidev.category
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.wiki.domain.Category">
     <!--@mbg.generated-->
-    insert into wikidev.category (id, parent, `name`, 
-      sort)
-    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER})
+    insert into wikidev.category (id, parent, `name`,
+    sort)
+    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+    #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.wiki.domain.Category">
     <!--@mbg.generated-->
@@ -84,8 +86,8 @@
     <!--@mbg.generated-->
     update wikidev.category
     set parent = #{parent,jdbcType=BIGINT},
-      `name` = #{name,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER}
+    `name` = #{name,jdbcType=VARCHAR},
+    sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateBatch" parameterType="java.util.List">
@@ -150,21 +152,19 @@
     (id, parent, `name`, sort)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.parent,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR}, 
-        #{item.sort,jdbcType=INTEGER})
+      (#{item.id,jdbcType=BIGINT}, #{item.parent,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR},
+      #{item.sort,jdbcType=INTEGER})
     </foreach>
   </insert>
   <insert id="insertOrUpdate" parameterType="com.example.wiki.domain.Category">
     <!--@mbg.generated-->
     insert into wikidev.category
     (id, parent, `name`, sort)
-    values
-    (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
-      )
-    on duplicate key update 
-    id = #{id,jdbcType=BIGINT}, 
-    parent = #{parent,jdbcType=BIGINT}, 
-    `name` = #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+    #{sort,jdbcType=INTEGER})
+    on duplicate key update id = #{id,jdbcType=BIGINT},
+    parent = #{parent,jdbcType=BIGINT},
+    `name` = #{name,jdbcType=VARCHAR},
     sort = #{sort,jdbcType=INTEGER}
   </insert>
   <insert id="insertOrUpdateSelective" parameterType="com.example.wiki.domain.Category">
@@ -199,7 +199,7 @@
         #{sort,jdbcType=INTEGER},
       </if>
     </trim>
-    on duplicate key update 
+    on duplicate key update
     <trim suffixOverrides=",">
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
@@ -215,4 +215,16 @@
       </if>
     </trim>
   </insert>
+
+  <select id="list" resultMap="BaseResultMap"
+    parameterType="com.example.wiki.request.CategoryQueryRequest">
+    select id, parent, `name`, sort
+    from wikidev.category
+  </select>
+
+  <select id="all" resultMap="BaseResultMap">
+    select id, parent, `name`, sort
+    from wikidev.category
+    order by sort asc
+  </select>
 </mapper>

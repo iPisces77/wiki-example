@@ -1,6 +1,7 @@
 package com.example.wiki.mapper;
 
 import com.example.wiki.domain.Category;
+import com.example.wiki.request.CategoryQueryRequest;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,4 +65,8 @@ public interface CategoryMapper {
   int updateBatchSelective(@Param("list") List<Category> list);
 
   int batchInsert(@Param("list") List<Category> list);
+
+  List<Category> list(@Param("request") CategoryQueryRequest request);
+
+  List<Category> all();
 }
