@@ -10,7 +10,7 @@ import java.util.Objects;
 public class EBookQueryResponse implements Serializable {
   private static final long serialVersionUID = 1L;
   /** id */
-  private Long id;
+  private String id;
   /** 名称 */
   private String name;
   /** 分类1 */
@@ -31,7 +31,7 @@ public class EBookQueryResponse implements Serializable {
   public EBookQueryResponse() {}
 
   public EBookQueryResponse(
-      Long id,
+      String id,
       String name,
       Long category1Id,
       Long category2Id,
@@ -85,11 +85,11 @@ public class EBookQueryResponse implements Serializable {
         getVoteCount());
   }
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

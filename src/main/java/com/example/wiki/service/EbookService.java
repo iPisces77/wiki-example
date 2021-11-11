@@ -1,5 +1,6 @@
 package com.example.wiki.service;
 
+import cn.hutool.core.lang.Snowflake;
 import com.example.wiki.converter.EBookConverter;
 import com.example.wiki.domain.Ebook;
 import com.example.wiki.mapper.EbookMapper;
@@ -7,7 +8,6 @@ import com.example.wiki.request.EBookQueryRequest;
 import com.example.wiki.request.EBookSaveRequest;
 import com.example.wiki.response.EBookQueryResponse;
 import com.example.wiki.response.PageResponse;
-import com.example.wiki.utils.SnowFlake;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
 import java.util.List;
@@ -21,10 +21,10 @@ import org.springframework.stereotype.Service;
 public class EbookService {
   private static final Logger LOG = LoggerFactory.getLogger(EbookService.class);
   private final EBookConverter converter;
-  private final SnowFlake snowflake;
+  private final Snowflake snowflake;
   @Resource private EbookMapper ebookMapper;
 
-  public EbookService(EBookConverter converter, SnowFlake snowflake) {
+  public EbookService(EBookConverter converter, Snowflake snowflake) {
     this.converter = converter;
     this.snowflake = snowflake;
   }

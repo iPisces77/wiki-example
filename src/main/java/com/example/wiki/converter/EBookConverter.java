@@ -5,6 +5,7 @@ import com.example.wiki.request.EBookSaveRequest;
 import com.example.wiki.response.EBookQueryResponse;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * @author 付海鑫
@@ -12,7 +13,7 @@ import org.mapstruct.Mapper;
  */
 @Mapper(componentModel = "spring")
 public interface EBookConverter {
-
+  @Mapping(source = "id", target = "id", resultType = String.class)
   EBookQueryResponse do2vo(Ebook var1);
 
   Ebook vo2Do(EBookQueryResponse var1);
