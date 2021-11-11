@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: 123456
     username: wikidev
-    url: jdbc:mysql://localhost:3306/wikidev?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3306/wikidev?useUnicode=true&characterEncoding=utf8
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
 logging:
