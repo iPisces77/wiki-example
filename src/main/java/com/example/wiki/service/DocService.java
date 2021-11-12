@@ -122,9 +122,9 @@ public class DocService {
     return docResponsePageResponse;
   }
 
-  public List<DocQueryResponse> all() {
+  public List<DocQueryResponse> all(Long ebookId) {
 
-    return converter.do2voList((docMapper.all()));
+    return converter.do2voList((docMapper.all(ebookId)));
   }
 
   public String findContent(Long id) {
@@ -135,6 +135,6 @@ public class DocService {
         return contentContent;
       }
     }
-      return "";
+    return "";
   }
 }

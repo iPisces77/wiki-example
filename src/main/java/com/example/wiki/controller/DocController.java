@@ -33,10 +33,10 @@ public class DocController {
     this.docService = docService;
   }
 
-  @GetMapping("/all")
-  public CommonResponse all() {
+  @GetMapping("/all/{ebookId}")
+  public CommonResponse all(@PathVariable(value = "ebookId") Long ebookId) {
     CommonResponse<List<DocQueryResponse>> resp = new CommonResponse<>();
-    List<DocQueryResponse> list = docService.all();
+    List<DocQueryResponse> list = docService.all(ebookId);
     resp.setContent(list);
     return resp;
   }
@@ -69,7 +69,7 @@ public class DocController {
     return commonResponse;
   }
 
-  @GetMapping("/content/{id}")
+  @GetMapping("/find-content/{id}")
   public CommonResponse findContent(@PathVariable(value = "id") Long id) {
     var content = docService.findContent(id);
     var commonResponse = new CommonResponse<String>();

@@ -1,7 +1,8 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import AdminEBook from '../views/admin/admin-ebook.vue'
+import Doc from '../views/Doc.vue'
+import AdminEbook from '../views/admin/admin-ebook.vue'
 import AdminCategory from '../views/admin/admin-category.vue'
 import AdminDoc from '../views/admin/admin-doc.vue'
 
@@ -12,18 +13,23 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
+    path: '/doc',
+    name: 'Doc',
+    component: Doc
+  },
+  {
     path: '/about',
     name: 'About',
-    component: About,
+    component: About
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    // component: () => import(/* webpackChunkName: "about" */ '../views/about.vue')
   },
   {
     path: '/admin/ebook',
-    name: 'AdminEBook',
-    component: AdminEBook
+    name: 'AdminEbook',
+    component: AdminEbook
   },
   {
     path: '/admin/category',
@@ -34,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/admin/doc',
     name: 'AdminDoc',
     component: AdminDoc
-  }
+  },
 ]
 
 const router = createRouter({

@@ -39,7 +39,9 @@
             </template>
             <a-list-item-meta :description="item.description">
               <template #title>
-                <a :href="item.href">{{ item.name }}</a>
+                <router-link :to="'/doc?ebookId=' + item.id">
+                  {{ item.name }}
+                </router-link>
               </template>
               <template #avatar>
                 <a-avatar :src="item.cover"/>
@@ -111,7 +113,6 @@ export default defineComponent({
       }).then((response) => {
         const data = response.data;
         ebooks.value = data.content.list;
-        console.log(ebooks.value)
         // ebooks1.books = data.content;
       });
     };

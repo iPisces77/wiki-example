@@ -328,6 +328,7 @@
   <select id="all" resultMap="BaseResultMap">
     select id, ebook_id, parent, name, sort, view_count, vote_count
     from wikidev.doc d
+    where ebook_id = #{ebookId}
   </select>
 
   <delete id="deleteByPrimaryKeys">
