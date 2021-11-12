@@ -1,6 +1,7 @@
 package com.example.wiki.mapper;
 
 import com.example.wiki.domain.User;
+import com.example.wiki.request.UserQueryRequest;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,4 +65,8 @@ public interface UserMapper {
   int updateBatchSelective(@Param("list") List<User> list);
 
   int batchInsert(@Param("list") List<User> list);
+
+  List<User> list(@Param("request") UserQueryRequest request);
+
+  User selectByLoginName(String loginName);
 }

@@ -1,15 +1,36 @@
 package com.example.wiki.service;
 
+import static com.example.wiki.exception.BusinessExceptionCode.USER_LOGIN_NAME_EXIST;
+
+import cn.hutool.core.lang.Snowflake;
+import com.example.wiki.converter.UserConverter;
 import com.example.wiki.domain.User;
+import com.example.wiki.exception.BusinessException;
 import com.example.wiki.mapper.UserMapper;
+import com.example.wiki.request.UserQueryRequest;
+import com.example.wiki.request.UserSaveRequest;
+import com.example.wiki.response.PageResponse;
+import com.example.wiki.response.UserQueryResponse;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-
+  private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+  private final UserConverter converter;
+  private final Snowflake snowflake;
   @Resource private UserMapper userMapper;
+
+  public UserService(UserConverter converter, Snowflake snowflake) {
+    this.converter = converter;
+    this.snowflake = snowflake;
+  }
 
   public int deleteByPrimaryKey(Long id) {
     return userMapper.deleteByPrimaryKey(id);
@@ -53,5 +74,41 @@ public class UserService {
 
   public int batchInsert(List<User> list) {
     return userMapper.batchInsert(list);
+  }
+
+  public PageResponse<UserQueryResponse> list(UserQueryRequest request) {
+    PageMethod.startPage(request.getPage(), request.getSize());
+    var list = userMapper.list(request);
+    var userPageInfo = new PageInfo<>(list);
+    var total = userPageInfo.getTotal();
+    LOG.info("总行数:{}", total);
+    var pages = userPageInfo.getPages();
+    LOG.info("总页数:{}", pages);
+    var userResponses = converter.do2voList(list);
+    var userResponsePageResponse = new PageResponse<UserQueryResponse>();
+    userResponsePageResponse.setList(userResponses);
+    userResponsePageResponse.setTotal(total);
+    return userResponsePageResponse;
+  }
+
+  public void save(UserSaveRequest request) {
+    var user = converter.vo2Do(request);
+    if (Objects.nonNull(user.getId())) {
+      user.setLoginName(null);
+      userMapper.updateByPrimaryKeySelective(user);
+    } else {
+      if (Objects.isNull(selectByLoginName(request.getLoginName()))) {
+
+        var id = snowflake.nextId();
+        user.setId(id);
+        userMapper.insertSelective(user);
+      } else {
+        throw new BusinessException(USER_LOGIN_NAME_EXIST);
+      }
+    }
+  }
+
+  public User selectByLoginName(String loginName) {
+    return userMapper.selectByLoginName(loginName);
   }
 }

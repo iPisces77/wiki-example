@@ -1,11 +1,14 @@
-package com.example.wiki.domain;
+package com.example.wiki.response;
 
+import com.example.wiki.domain.User;
 import java.io.Serializable;
 import java.util.Objects;
 
-/** 用户 */
-public class User implements Serializable {
-
+/**
+ * @author 付海鑫
+ * @date 2021年11月12日 14:15
+ */
+public class UserQueryResponse implements Serializable {
   private static final long serialVersionUID = 1L;
   /** ID */
   private Long id;
@@ -16,18 +19,18 @@ public class User implements Serializable {
   /** 密码 */
   private String password;
 
-  public User(Long id) {
+  public UserQueryResponse(Long id) {
     this.id = id;
   }
 
-  public User(Long id, String loginName, String name, String password) {
+  public UserQueryResponse(Long id, String loginName, String name, String password) {
     this.id = id;
     this.loginName = loginName;
     this.name = name;
     this.password = password;
   }
 
-  public User() {}
+  public UserQueryResponse() {}
 
   @Override
   public String toString() {

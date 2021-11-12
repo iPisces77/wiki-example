@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.wiki.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.example.wiki.domain.User">
     <!--@mbg.generated-->
     <!--@Table wikidev.`user`-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="password" jdbcType="CHAR" property="password" />
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="password" jdbcType="CHAR" property="password"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -15,22 +16,23 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from wikidev.`user`
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
-    delete from wikidev.`user`
+    delete
+    from wikidev.`user`
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.wiki.domain.User">
     <!--@mbg.generated-->
-    insert into wikidev.`user` (id, login_name, `name`, 
-      `password`)
-    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{password,jdbcType=CHAR})
+    insert into wikidev.`user` (id, login_name, `name`,
+    `password`)
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    #{password,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.wiki.domain.User">
     <!--@mbg.generated-->
@@ -84,8 +86,8 @@
     <!--@mbg.generated-->
     update wikidev.`user`
     set login_name = #{loginName,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
-      `password` = #{password,jdbcType=CHAR}
+    `name` = #{name,jdbcType=VARCHAR},
+    `password` = #{password,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateBatch" parameterType="java.util.List">
@@ -150,21 +152,20 @@
     (id, login_name, `name`, `password`)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.loginName,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
-        #{item.password,jdbcType=CHAR})
+      (#{item.id,jdbcType=BIGINT}, #{item.loginName,jdbcType=VARCHAR},
+      #{item.name,jdbcType=VARCHAR},
+      #{item.password,jdbcType=CHAR})
     </foreach>
   </insert>
   <insert id="insertOrUpdate" parameterType="com.example.wiki.domain.User">
     <!--@mbg.generated-->
     insert into wikidev.`user`
     (id, login_name, `name`, `password`)
-    values
-    (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{password,jdbcType=CHAR})
-    on duplicate key update 
-    id = #{id,jdbcType=BIGINT}, 
-    login_name = #{loginName,jdbcType=VARCHAR}, 
-    `name` = #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    #{password,jdbcType=CHAR})
+    on duplicate key update id = #{id,jdbcType=BIGINT},
+    login_name = #{loginName,jdbcType=VARCHAR},
+    `name` = #{name,jdbcType=VARCHAR},
     `password` = #{password,jdbcType=CHAR}
   </insert>
   <insert id="insertOrUpdateSelective" parameterType="com.example.wiki.domain.User">
@@ -199,7 +200,7 @@
         #{password,jdbcType=CHAR},
       </if>
     </trim>
-    on duplicate key update 
+    on duplicate key update
     <trim suffixOverrides=",">
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
@@ -215,4 +216,23 @@
       </if>
     </trim>
   </insert>
+
+  <select id="list" resultMap="BaseResultMap">
+    select id, login_name
+    from wikidev.user u
+    <where>
+      <if test="request != null">
+        <if test="request.loginName != null and request.loginName != ''">
+          and name like concat('%', #{request.loginName}, '%')
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByLoginName" resultMap="BaseResultMap">
+    select id, login_name, `name`, `password`
+    from wikidev.user u
+    where login_name = #{loginName,jdbcType=VARCHAR}
+    limit 1
+  </select>
 </mapper>
