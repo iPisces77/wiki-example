@@ -27,6 +27,28 @@ public class DocSaveRequest implements Serializable {
   /** 点赞数 */
   private Integer voteCount;
 
+  @NotNull(message = "[内容]不能为空")
+  private String content;
+
+  public DocSaveRequest(
+      Long id,
+      Long ebookId,
+      Long parent,
+      String name,
+      Integer sort,
+      Integer viewCount,
+      Integer voteCount,
+      String content) {
+    this.id = id;
+    this.ebookId = ebookId;
+    this.parent = parent;
+    this.name = name;
+    this.sort = sort;
+    this.viewCount = viewCount;
+    this.voteCount = voteCount;
+    this.content = content;
+  }
+
   public DocSaveRequest() {}
 
   public DocSaveRequest(
@@ -48,7 +70,7 @@ public class DocSaveRequest implements Serializable {
 
   @Override
   public String toString() {
-    return "Doc{"
+    return "DocSaveRequest{"
         + "id="
         + id
         + ", ebookId="
@@ -64,6 +86,9 @@ public class DocSaveRequest implements Serializable {
         + viewCount
         + ", voteCount="
         + voteCount
+        + ", content='"
+        + content
+        + '\''
         + '}';
   }
 
@@ -75,20 +100,36 @@ public class DocSaveRequest implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DocSaveRequest doc = (DocSaveRequest) o;
-    return getId().equals(doc.getId())
-        && getEbookId().equals(doc.getEbookId())
-        && getParent().equals(doc.getParent())
-        && getName().equals(doc.getName())
-        && getSort().equals(doc.getSort())
-        && getViewCount().equals(doc.getViewCount())
-        && getVoteCount().equals(doc.getVoteCount());
+    DocSaveRequest that = (DocSaveRequest) o;
+    return getId().equals(that.getId())
+        && getEbookId().equals(that.getEbookId())
+        && getParent().equals(that.getParent())
+        && getName().equals(that.getName())
+        && getSort().equals(that.getSort())
+        && getViewCount().equals(that.getViewCount())
+        && getVoteCount().equals(that.getVoteCount())
+        && getContent().equals(that.getContent());
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-        getId(), getEbookId(), getParent(), getName(), getSort(), getViewCount(), getVoteCount());
+        getId(),
+        getEbookId(),
+        getParent(),
+        getName(),
+        getSort(),
+        getViewCount(),
+        getVoteCount(),
+        getContent());
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public Long getId() {
