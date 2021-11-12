@@ -1,6 +1,7 @@
 package com.example.wiki.converter;
 
 import com.example.wiki.domain.User;
+import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserSaveRequest;
 import com.example.wiki.response.UserQueryResponse;
 import java.util.List;
@@ -21,4 +22,8 @@ public interface UserConverter {
   User vo2Do(UserSaveRequest request);
 
   List<UserQueryResponse> do2voList(List<User> userList);
+
+  @Mapping(ignore = true, target = "loginName")
+  @Mapping(ignore = true, target = "name")
+  User vo2Do(UserPasswordRequest request);
 }

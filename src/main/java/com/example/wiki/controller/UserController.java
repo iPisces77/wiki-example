@@ -1,5 +1,6 @@
 package com.example.wiki.controller;
 
+import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserQueryRequest;
 import com.example.wiki.request.UserSaveRequest;
 import com.example.wiki.response.CommonResponse;
@@ -53,5 +54,11 @@ public class UserController {
     var commonResponse = new CommonResponse<>();
     ebookService.deleteByPrimaryKey(id);
     return commonResponse;
+  }
+
+  @PostMapping("/reset-password")
+  public CommonResponse resetPassword(@RequestBody @Validated UserPasswordRequest request) {
+    ebookService.resetPassword(request);
+    return new CommonResponse<>();
   }
 }

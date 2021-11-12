@@ -7,6 +7,7 @@ import com.example.wiki.converter.UserConverter;
 import com.example.wiki.domain.User;
 import com.example.wiki.exception.BusinessException;
 import com.example.wiki.mapper.UserMapper;
+import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserQueryRequest;
 import com.example.wiki.request.UserSaveRequest;
 import com.example.wiki.response.PageResponse;
@@ -95,6 +96,7 @@ public class UserService {
     var user = converter.vo2Do(request);
     if (Objects.nonNull(user.getId())) {
       user.setLoginName(null);
+      user.setPassword(null);
       userMapper.updateByPrimaryKeySelective(user);
     } else {
       if (Objects.isNull(selectByLoginName(request.getLoginName()))) {
@@ -110,5 +112,10 @@ public class UserService {
 
   public User selectByLoginName(String loginName) {
     return userMapper.selectByLoginName(loginName);
+  }
+
+  public void resetPassword(UserPasswordRequest request) {
+    var user = converter.vo2Do(request);
+    userMapper.updateByPrimaryKeySelective(user);
   }
 }

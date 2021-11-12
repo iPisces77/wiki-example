@@ -4,7 +4,7 @@
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
       <p>
-        <a-form :model="param" layout="inline">
+        <a-form layout="inline" :model="param">
           <a-form-item>
             <a-input v-model:value="param.loginName" placeholder="登陆名">
             </a-input>
@@ -23,21 +23,24 @@
       </p>
       <a-table
           :columns="columns"
-          :data-source="users"
-          :loading="loading"
-          :pagination="pagination"
           :row-key="record => record.id"
+          :data-source="users"
+          :pagination="pagination"
+          :loading="loading"
           @change="handleTableChange"
       >
         <template v-slot:action="{ text, record }">
           <a-space size="small">
+            <a-button type="primary" @click="resetPassword(record)">
+              重置密码
+            </a-button>
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
             <a-popconfirm
-                cancel-text="否"
-                ok-text="是"
                 title="删除后不可恢复，确认删除?"
+                ok-text="是"
+                cancel-text="否"
                 @confirm="handleDelete(record.id)"
             >
               <a-button type="danger">
@@ -51,19 +54,32 @@
   </a-layout>
 
   <a-modal
+      title="用户表单"
       v-model:visible="modalVisible"
       :confirm-loading="modalLoading"
-      title="用户表单"
       @ok="handleModalOk"
   >
-    <a-form :label-col="{ span: 6 }" :model="user" :wrapper-col="{ span: 18 }">
+    <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="登陆名">
         <a-input v-model:value="user.loginName" :disabled="!!user.id"/>
       </a-form-item>
       <a-form-item label="昵称">
-        <a-input v-model:value="user.name"/>
+        <a-input v-model:value="user.name" />
       </a-form-item>
-      <a-form-item label="密码">
+      <a-form-item label="密码" v-show="!user.id">
+        <a-input v-model:value="user.password"/>
+      </a-form-item>
+    </a-form>
+  </a-modal>
+
+  <a-modal
+      title="重置密码"
+      v-model:visible="resetModalVisible"
+      :confirm-loading="resetModalLoading"
+      @ok="handleResetModalOk"
+  >
+    <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form-item label="新密码">
         <a-input v-model:value="user.password"/>
       </a-form-item>
     </a-form>
@@ -71,9 +87,9 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import axios from 'axios';
-import {message} from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 import {Tool} from "@/util/tool";
 
 declare let hexMd5: any;
@@ -108,7 +124,7 @@ export default defineComponent({
       {
         title: 'Action',
         key: 'action',
-        slots: {customRender: 'action'}
+        slots: { customRender: 'action' }
       }
     ];
 
@@ -206,6 +222,40 @@ export default defineComponent({
       });
     };
 
+    // -------- 重置密码 ---------
+    const resetModalVisible = ref(false);
+    const resetModalLoading = ref(false);
+    const handleResetModalOk = () => {
+      resetModalLoading.value = true;
+
+      user.value.password = hexMd5(user.value.password + KEY);
+
+      axios.post("/user/reset-password", user.value).then((response) => {
+        resetModalLoading.value = false;
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          resetModalVisible.value = false;
+
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
+    /**
+     * 重置密码
+     */
+    const resetPassword = (record: any) => {
+      resetModalVisible.value = true;
+      user.value = Tool.copy(record);
+      user.value.password = null;
+    };
+
     onMounted(() => {
       handleQuery({
         page: 1,
@@ -230,7 +280,12 @@ export default defineComponent({
       modalLoading,
       handleModalOk,
 
-      handleDelete
+      handleDelete,
+
+      resetModalVisible,
+      resetModalLoading,
+      handleResetModalOk,
+      resetPassword
     }
   }
 });
