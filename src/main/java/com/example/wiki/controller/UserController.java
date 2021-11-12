@@ -6,6 +6,8 @@ import com.example.wiki.response.CommonResponse;
 import com.example.wiki.response.PageResponse;
 import com.example.wiki.response.UserQueryResponse;
 import com.example.wiki.service.UserService;
+import java.nio.charset.StandardCharsets;
+import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +41,9 @@ public class UserController {
   /** 保存 */
   @PostMapping("/save")
   public CommonResponse save(@RequestBody @Validated UserSaveRequest request) {
+    request.setPassword(
+        DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
+
     ebookService.save(request);
     return new CommonResponse<>();
   }

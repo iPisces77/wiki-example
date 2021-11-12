@@ -218,7 +218,7 @@
   </insert>
 
   <select id="list" resultMap="BaseResultMap">
-    select id, login_name
+    select id, login_name, name, password
     from wikidev.user u
     <where>
       <if test="request != null">
