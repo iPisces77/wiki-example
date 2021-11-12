@@ -68,4 +68,12 @@ public class DocController {
     commonResponse.setSuccess(false);
     return commonResponse;
   }
+
+  @GetMapping("/content/{id}")
+  public CommonResponse findContent(@PathVariable(value = "id") Long id) {
+    var content = docService.findContent(id);
+    var commonResponse = new CommonResponse<String>();
+    commonResponse.setContent(content);
+    return commonResponse;
+  }
 }

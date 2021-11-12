@@ -126,4 +126,15 @@ public class DocService {
 
     return converter.do2voList((docMapper.all()));
   }
+
+  public String findContent(Long id) {
+    var content = contentMapper.selectByPrimaryKey(id);
+    if (Objects.nonNull(content)) {
+      var contentContent = content.getContent();
+      if (Objects.nonNull(contentContent)) {
+        return contentContent;
+      }
+    }
+      return "";
+  }
 }
