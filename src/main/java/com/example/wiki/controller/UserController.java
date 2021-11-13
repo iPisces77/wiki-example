@@ -1,10 +1,12 @@
 package com.example.wiki.controller;
 
+import com.example.wiki.request.UserLoginRequest;
 import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserQueryRequest;
 import com.example.wiki.request.UserSaveRequest;
 import com.example.wiki.response.CommonResponse;
 import com.example.wiki.response.PageResponse;
+import com.example.wiki.response.UserLoginResponse;
 import com.example.wiki.response.UserQueryResponse;
 import com.example.wiki.service.UserService;
 import java.nio.charset.StandardCharsets;
@@ -26,15 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-  private final UserService ebookService;
+  private final UserService userService;
 
   public UserController(UserService ebookService) {
-    this.ebookService = ebookService;
+    this.userService = ebookService;
   }
 
   @GetMapping("/list")
   public CommonResponse<PageResponse<UserQueryResponse>> list(@Validated UserQueryRequest request) {
-    var list = ebookService.list(request);
+    var list = userService.list(request);
     var ebookCommonResponse = new CommonResponse<PageResponse<UserQueryResponse>>();
     ebookCommonResponse.setContent(list);
     return ebookCommonResponse;
@@ -45,20 +47,33 @@ public class UserController {
     request.setPassword(
         DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
 
-    ebookService.save(request);
+    userService.save(request);
     return new CommonResponse<>();
   }
 
   @DeleteMapping("/delete/{id}")
   public CommonResponse delete(@PathVariable(value = "id") Long id) {
     var commonResponse = new CommonResponse<>();
-    ebookService.deleteByPrimaryKey(id);
+    userService.deleteByPrimaryKey(id);
     return commonResponse;
   }
 
   @PostMapping("/reset-password")
   public CommonResponse resetPassword(@RequestBody @Validated UserPasswordRequest request) {
-    ebookService.resetPassword(request);
+    request.setPassword(
+        DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
+    userService.resetPassword(request);
     return new CommonResponse<>();
+  }
+
+  @PostMapping("/login")
+  public CommonResponse login(@RequestBody @Validated UserLoginRequest request) {
+    request.setPassword(
+        DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
+    var commonResponse = new CommonResponse<UserLoginResponse>();
+    var login = userService.login(request);
+    commonResponse.setContent(login);
+
+    return commonResponse;
   }
 }

@@ -11,7 +11,7 @@ import java.util.Objects;
 public class UserQueryResponse implements Serializable {
   private static final long serialVersionUID = 1L;
   /** ID */
-  private Long id;
+  private String id;
   /** 登陆名 */
   private String loginName;
   /** 昵称 */
@@ -19,11 +19,11 @@ public class UserQueryResponse implements Serializable {
   /** 密码 */
   private String password;
 
-  public UserQueryResponse(Long id) {
+  public UserQueryResponse(String id) {
     this.id = id;
   }
 
-  public UserQueryResponse(Long id, String loginName, String name, String password) {
+  public UserQueryResponse(String id, String loginName, String name, String password) {
     this.id = id;
     this.loginName = loginName;
     this.name = name;
@@ -69,11 +69,11 @@ public class UserQueryResponse implements Serializable {
     return Objects.hash(getId(), getLoginName(), getName(), getPassword());
   }
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

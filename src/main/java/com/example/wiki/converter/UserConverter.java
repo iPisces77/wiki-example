@@ -3,6 +3,7 @@ package com.example.wiki.converter;
 import com.example.wiki.domain.User;
 import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserSaveRequest;
+import com.example.wiki.response.UserLoginResponse;
 import com.example.wiki.response.UserQueryResponse;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -16,6 +17,9 @@ import org.mapstruct.Mapping;
 public interface UserConverter {
   @Mapping(source = "id", target = "id", resultType = String.class)
   UserQueryResponse do2vo(User var1);
+
+  @Mapping(source = "id", target = "id", resultType = String.class)
+  UserLoginResponse do2Loginvo(User var1);
 
   User vo2Do(UserQueryResponse var1);
 

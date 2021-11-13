@@ -1,5 +1,6 @@
 package com.example.wiki.service;
 
+import static com.example.wiki.exception.BusinessExceptionCode.LOGIN_USER_ERROR;
 import static com.example.wiki.exception.BusinessExceptionCode.USER_LOGIN_NAME_EXIST;
 
 import cn.hutool.core.lang.Snowflake;
@@ -7,10 +8,12 @@ import com.example.wiki.converter.UserConverter;
 import com.example.wiki.domain.User;
 import com.example.wiki.exception.BusinessException;
 import com.example.wiki.mapper.UserMapper;
+import com.example.wiki.request.UserLoginRequest;
 import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserQueryRequest;
 import com.example.wiki.request.UserSaveRequest;
 import com.example.wiki.response.PageResponse;
+import com.example.wiki.response.UserLoginResponse;
 import com.example.wiki.response.UserQueryResponse;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
@@ -117,5 +120,21 @@ public class UserService {
   public void resetPassword(UserPasswordRequest request) {
     var user = converter.vo2Do(request);
     userMapper.updateByPrimaryKeySelective(user);
+  }
+
+  public UserLoginResponse login(UserLoginRequest request) {
+    var user = selectByLoginName(request.getLoginName());
+    if (Objects.nonNull(user)) {
+      if (user.getPassword().equals(request.getPassword())) {
+        return converter.do2Loginvo(user);
+      } else {
+        LOG.info("用户名不存在, {}", request.getLoginName());
+        throw new BusinessException(LOGIN_USER_ERROR);
+      }
+
+    } else {
+      LOG.info("用户名不存在, {}", request.getLoginName());
+      throw new BusinessException(LOGIN_USER_ERROR);
+    }
   }
 }
