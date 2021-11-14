@@ -1,5 +1,6 @@
 package com.example.wiki.controller;
 
+import cn.hutool.core.lang.Snowflake;
 import com.example.wiki.request.UserLoginRequest;
 import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserQueryRequest;
@@ -10,6 +11,11 @@ import com.example.wiki.response.UserLoginResponse;
 import com.example.wiki.response.UserQueryResponse;
 import com.example.wiki.service.UserService;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,11 +33,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
+  private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+  private final RedisTemplate redisTemplate;
   private final UserService userService;
+  private final Snowflake snowflake;
 
-  public UserController(UserService ebookService) {
+  public UserController(
+      UserService ebookService, RedisTemplate redisTemplate, Snowflake snowflake) {
     this.userService = ebookService;
+    this.redisTemplate = redisTemplate;
+    this.snowflake = snowflake;
   }
 
   @GetMapping("/list")
@@ -43,7 +54,7 @@ public class UserController {
   }
   /** 保存 */
   @PostMapping("/save")
-  public CommonResponse save(@RequestBody @Validated UserSaveRequest request) {
+  public CommonResponse<? extends Object> save(@RequestBody @Validated UserSaveRequest request) {
     request.setPassword(
         DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
 
@@ -52,14 +63,15 @@ public class UserController {
   }
 
   @DeleteMapping("/delete/{id}")
-  public CommonResponse delete(@PathVariable(value = "id") Long id) {
+  public CommonResponse<? extends Object> delete(@PathVariable(value = "id") Long id) {
     var commonResponse = new CommonResponse<>();
     userService.deleteByPrimaryKey(id);
     return commonResponse;
   }
 
   @PostMapping("/reset-password")
-  public CommonResponse resetPassword(@RequestBody @Validated UserPasswordRequest request) {
+  public CommonResponse<? extends Object> resetPassword(
+      @RequestBody @Validated UserPasswordRequest request) {
     request.setPassword(
         DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
     userService.resetPassword(request);
@@ -67,13 +79,17 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public CommonResponse login(@RequestBody @Validated UserLoginRequest request) {
+  public CommonResponse<? extends UserLoginResponse> login(
+      @RequestBody @Validated UserLoginRequest request) {
     request.setPassword(
         DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
     var commonResponse = new CommonResponse<UserLoginResponse>();
     var login = userService.login(request);
+    var token = UUID.randomUUID().toString();
+    LOG.info("生成Token并存入redis:{}", token);
+    login.setToken(token);
+    redisTemplate.opsForValue().set(token, login, 3600 * 24, TimeUnit.SECONDS);
     commonResponse.setContent(login);
-
     return commonResponse;
   }
 }

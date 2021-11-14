@@ -223,7 +223,7 @@
     <where>
       <if test="request != null">
         <if test="request.loginName != null and request.loginName != ''">
-          and name like concat('%', #{request.loginName}, '%')
+          and login_name like concat('%', #{request.loginName}, '%')
         </if>
       </if>
     </where>

@@ -126,6 +126,7 @@ public class UserService {
     var user = selectByLoginName(request.getLoginName());
     if (Objects.nonNull(user)) {
       if (user.getPassword().equals(request.getPassword())) {
+        System.out.println(request.getPassword());
         return converter.do2Loginvo(user);
       } else {
         LOG.info("用户名不存在, {}", request.getLoginName());
