@@ -1,6 +1,5 @@
 package com.example.wiki.controller;
 
-import cn.hutool.core.lang.Snowflake;
 import com.example.wiki.request.UserLoginRequest;
 import com.example.wiki.request.UserPasswordRequest;
 import com.example.wiki.request.UserQueryRequest;
@@ -36,13 +35,10 @@ public class UserController {
   private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
   private final RedisTemplate redisTemplate;
   private final UserService userService;
-  private final Snowflake snowflake;
 
-  public UserController(
-      UserService ebookService, RedisTemplate redisTemplate, Snowflake snowflake) {
+  public UserController(UserService ebookService, RedisTemplate redisTemplate) {
     this.userService = ebookService;
     this.redisTemplate = redisTemplate;
-    this.snowflake = snowflake;
   }
 
   @GetMapping("/list")
@@ -79,8 +75,7 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public CommonResponse<? extends UserLoginResponse> login(
-      @RequestBody @Validated UserLoginRequest request) {
+  public CommonResponse<UserLoginResponse> login(@RequestBody @Validated UserLoginRequest request) {
     request.setPassword(
         DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
     var commonResponse = new CommonResponse<UserLoginResponse>();
@@ -90,6 +85,13 @@ public class UserController {
     login.setToken(token);
     redisTemplate.opsForValue().set(token, login, 3600 * 24, TimeUnit.SECONDS);
     commonResponse.setContent(login);
+    return commonResponse;
+  }
+
+  @GetMapping("/logout/{token}")
+  public CommonResponse<? extends Object> logout(@PathVariable(value = "token") String token) {
+    var commonResponse = new CommonResponse<>();
+    redisTemplate.delete(token);
     return commonResponse;
   }
 }

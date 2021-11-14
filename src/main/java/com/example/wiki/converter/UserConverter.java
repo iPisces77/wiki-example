@@ -19,6 +19,7 @@ public interface UserConverter {
   UserQueryResponse do2vo(User var1);
 
   @Mapping(source = "id", target = "id", resultType = String.class)
+  @Mapping(target = "token", ignore = true)
   UserLoginResponse do2Loginvo(User var1);
 
   User vo2Do(UserQueryResponse var1);
