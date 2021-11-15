@@ -341,4 +341,17 @@
       </foreach>
     </where>
   </delete>
+
+  <update id="increaseViewCount">
+    update wikidev.doc
+    set view_count =view_count + 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap">
+    select *
+    from wikidev.doc d
+    where id = #{id} for
+    update
+  </select>
 </mapper>

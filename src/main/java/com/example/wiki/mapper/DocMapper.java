@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface DocMapper {
+  void increaseViewCount(Long id);
+
   /**
    * delete by primary key
    *
@@ -71,4 +73,6 @@ public interface DocMapper {
   List<Doc> all(Long ebookId);
 
   int deleteByPrimaryKeys(List<String> ids);
+
+  Doc selectByPrimaryKeyForUpdate(Long id);
 }

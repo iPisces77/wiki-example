@@ -64,4 +64,6 @@ public interface ContentMapper {
   int updateBatchSelective(@Param("list") List<Content> list);
 
   int batchInsert(@Param("list") List<Content> list);
+
+
 }

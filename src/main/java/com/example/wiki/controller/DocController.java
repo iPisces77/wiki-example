@@ -1,5 +1,6 @@
 package com.example.wiki.controller;
 
+import com.example.wiki.mapper.DocMapper;
 import com.example.wiki.request.DocQueryRequest;
 import com.example.wiki.request.DocSaveRequest;
 import com.example.wiki.response.CommonResponse;
@@ -26,11 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/doc")
 public class DocController {
-
   private final DocService docService;
+  private final DocMapper docMapper;
 
-  public DocController(DocService docService) {
+  public DocController(DocService docService, DocMapper docMapper) {
     this.docService = docService;
+    this.docMapper = docMapper;
   }
 
   @GetMapping("/all/{ebookId}")
