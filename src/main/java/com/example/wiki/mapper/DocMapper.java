@@ -75,4 +75,6 @@ public interface DocMapper {
   int deleteByPrimaryKeys(List<String> ids);
 
   Doc selectByPrimaryKeyForUpdate(Long id);
+
+  void increaseVoteCount(Long id);
 }

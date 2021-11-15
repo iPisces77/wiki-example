@@ -354,4 +354,10 @@
     where id = #{id} for
     update
   </select>
+
+  <update id="increaseVoteCount">
+    update wikidev.doc
+    set vote_count =vote_count + 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

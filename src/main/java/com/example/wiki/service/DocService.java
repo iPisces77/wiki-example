@@ -141,4 +141,10 @@ public class DocService {
     }
     return "";
   }
+
+  @Transactional
+  public void vote(Long id) {
+    docMapper.selectByPrimaryKeyForUpdate(id);
+    docMapper.increaseVoteCount(id);
+  }
 }
