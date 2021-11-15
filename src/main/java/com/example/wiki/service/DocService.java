@@ -1,21 +1,28 @@
 package com.example.wiki.service;
 
+import static com.example.wiki.exception.BusinessExceptionCode.VOTE_REPEAT;
+
 import cn.hutool.core.lang.Snowflake;
 import com.example.wiki.converter.ContentConverter;
 import com.example.wiki.converter.DocConverter;
 import com.example.wiki.domain.Doc;
+import com.example.wiki.exception.BusinessException;
 import com.example.wiki.mapper.ContentMapper;
 import com.example.wiki.mapper.DocMapper;
 import com.example.wiki.request.DocQueryRequest;
 import com.example.wiki.request.DocSaveRequest;
 import com.example.wiki.response.DocQueryResponse;
 import com.example.wiki.response.PageResponse;
+import com.example.wiki.utils.RequestContext;
 import com.github.pagehelper.PageInfo;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -26,18 +33,21 @@ public class DocService {
   private final DocMapper docMapper;
   private final ContentMapper contentMapper;
   private final ContentConverter contentConverter;
+  private final RedisTemplate redisTemplate;
 
   public DocService(
       DocConverter converter,
       Snowflake snowflake,
       DocMapper docMapper,
       ContentConverter contentConverter,
-      ContentMapper contentMapper) {
+      ContentMapper contentMapper,
+      RedisTemplate redisTemplate) {
     this.converter = converter;
     this.snowflake = snowflake;
     this.docMapper = docMapper;
     this.contentConverter = contentConverter;
     this.contentMapper = contentMapper;
+    this.redisTemplate = redisTemplate;
   }
 
   public int deleteByPrimaryKey(Long id) {
@@ -128,7 +138,7 @@ public class DocService {
     return converter.do2voList((docMapper.all(ebookId)));
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public String findContent(Long id) {
     var content = contentMapper.selectByPrimaryKey(id);
     docMapper.selectByPrimaryKeyForUpdate(id);
@@ -142,9 +152,20 @@ public class DocService {
     return "";
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public void vote(Long id) {
-    docMapper.selectByPrimaryKeyForUpdate(id);
-    docMapper.increaseVoteCount(id);
+    var ip = RequestContext.getRemoteAddr();
+    var key = "DOC_VOTE_" + id + "_" + ip;
+    if (redisTemplate.hasKey(key)) {
+      throw new BusinessException(VOTE_REPEAT);
+    } else {
+      docMapper.selectByPrimaryKeyForUpdate(id);
+      docMapper.increaseVoteCount(id);
+      redisTemplate.opsForValue().set(key, key, 1, TimeUnit.DAYS);
+    }
+  }
+
+  public void updateEbookInfo() {
+    docMapper.updateEBookInfo();
   }
 }

@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Snowflake;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.example.wiki.utils.RequestContext;
-import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Aspect
 @Component
 public class LogAspect {
-
   private static final Logger LOG = LoggerFactory.getLogger(LogAspect.class);
-  @Resource private Snowflake snowFlake;
+  private final Snowflake snowFlake;
+
+  public LogAspect(Snowflake snowFlake) {
+    this.snowFlake = snowFlake;
+  }
 
   /** 定义一个切点 */
   @Pointcut("execution(public * com.example.*.controller..*Controller.*(..))")
@@ -36,10 +38,8 @@ public class LogAspect {
 
   @Before("controllerPointcut()")
   public void doBefore(JoinPoint joinPoint) throws Throwable {
-
     // 增加日志流水号
-    MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
-
+    MDC.put("LOG_ID", snowFlake.nextId() + "");
     // 开始打印请求日志
     ServletRequestAttributes attributes =
         (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

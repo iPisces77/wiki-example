@@ -24,7 +24,11 @@ repositories {
 }
 
 dependencies {
-
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
     implementation 'com.auth0:java-jwt:3.18.2'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'cn.hutool:hutool-all:5.7.16'

@@ -77,4 +77,6 @@ public interface DocMapper {
   Doc selectByPrimaryKeyForUpdate(Long id);
 
   void increaseVoteCount(Long id);
+
+  void updateEBookInfo();
 }
