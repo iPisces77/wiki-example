@@ -4,7 +4,7 @@
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
       <p>
-        <a-form :model="param" layout="inline">
+        <a-form layout="inline" :model="param">
           <a-form-item>
             <a-input v-model:value="param.name" placeholder="名称">
             </a-input>
@@ -23,10 +23,10 @@
       </p>
       <a-table
           :columns="columns"
-          :data-source="ebooks"
-          :loading="loading"
-          :pagination="pagination"
           :row-key="record => record.id"
+          :data-source="ebooks"
+          :pagination="pagination"
+          :loading="loading"
           @change="handleTableChange"
       >
         <template #cover="{ text: cover }">
@@ -48,9 +48,9 @@
               编辑
             </a-button>
             <a-popconfirm
-                cancel-text="否"
-                ok-text="是"
                 title="删除后不可恢复，确认删除?"
+                ok-text="是"
+                cancel-text="否"
                 @confirm="handleDelete(record.id)"
             >
               <a-button type="danger">
@@ -64,14 +64,31 @@
   </a-layout>
 
   <a-modal
+      title="电子书表单"
       v-model:visible="modalVisible"
       :confirm-loading="modalLoading"
-      title="电子书表单"
       @ok="handleModalOk"
   >
-    <a-form :label-col="{ span: 6 }" :model="ebook" :wrapper-col="{ span: 18 }">
+    <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="封面">
         <a-input v-model:value="ebook.cover"/>
+        <a-upload
+            v-model:file-list="fileList"
+            name="avatar"
+            list-type="picture-card"
+            class="avatar-uploader"
+            :show-upload-list="false"
+            :action="SERVER + '/ebook/upload/avatar'"
+            :before-upload="beforeUpload"
+            @change="handleChange"
+        >
+          <img v-if="imageUrl" :src="imageUrl" alt="avatar"/>
+          <div v-else>
+            <loading-outlined v-if="coverLoading"></loading-outlined>
+            <plus-outlined v-else></plus-outlined>
+            <div class="ant-upload-text">Upload</div>
+          </div>
+        </a-upload>
       </a-form-item>
       <a-form-item label="名称">
         <a-input v-model:value="ebook.name"/>
@@ -95,6 +112,12 @@ import {defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
 import {message} from 'ant-design-vue';
 import {Tool} from "@/util/tool";
+
+function getBase64(img: Blob, callback: (base64Url: string) => void) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+}
 
 export default defineComponent({
   name: 'AdminEbook',
@@ -236,6 +259,8 @@ export default defineComponent({
             page: pagination.value.current,
             size: pagination.value.pageSize,
           });
+        } else {
+          message.error(data.message);
         }
       });
     };
@@ -281,6 +306,43 @@ export default defineComponent({
       return result;
     };
 
+    const SERVER = process.env.VUE_APP_SERVER;
+    const fileList = ref([]);
+    const coverLoading = ref<boolean>(false);
+    const imageUrl = ref<string>('');
+
+    const handleChange = (info: any) => {
+      if (info.file.status === 'upcoverLoading') {
+        coverLoading.value = true;
+        return;
+      }
+      if (info.file.status === 'done') {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, (base64Url: string) => {
+          imageUrl.value = base64Url;
+          coverLoading.value = false;
+        });
+
+        ebook.value.cover = SERVER + "/file/" + info.file.name;
+      }
+      if (info.file.status === 'error') {
+        coverLoading.value = false;
+        message.error('upload error');
+      }
+    };
+
+    const beforeUpload = (file: any) => {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        message.error('You can only upload JPG file!');
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error('Image must smaller than 2MB!');
+      }
+      return isJpgOrPng && isLt2M;
+    };
+
     onMounted(() => {
       handleQueryCategory();
     });
@@ -305,7 +367,14 @@ export default defineComponent({
       categoryIds,
       level1,
 
-      handleDelete
+      handleDelete,
+
+      fileList,
+      coverLoading,
+      imageUrl,
+      handleChange,
+      beforeUpload,
+      SERVER
     }
   }
 });
