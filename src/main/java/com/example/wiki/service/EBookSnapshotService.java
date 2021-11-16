@@ -71,4 +71,9 @@ public class EBookSnapshotService {
 
     return statisticConverter.do2voList(statistic);
   }
+
+  public List<StatisticResponse> get30DaysStatistic() {
+    var statistic = ebookSnapshotMapper.get30DaysStatistic();
+    return statisticConverter.do2voList(statistic);
+  }
 }

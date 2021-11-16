@@ -69,4 +69,6 @@ public interface EbookSnapshotMapper {
   void genSnapshot();
 
   List<Statistic> getStatistic();
+
+  List<Statistic> get30DaysStatistic();
 }
