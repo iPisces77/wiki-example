@@ -147,6 +147,7 @@ export default defineComponent({
       const xAxis = [];
       const seriesView = [];
       const seriesVote = [];
+
       for (let i = 0; i < list.length; i++) {
         const record = list[i];
         xAxis.push(record.date);

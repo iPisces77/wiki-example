@@ -68,7 +68,7 @@ import {defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
 import {message} from 'ant-design-vue';
 import {Tool} from "@/util/tool";
-import TheWelcome from '@/components/the-welcome.vue';
+import TheWelcome from '@/components/The-welcome.vue';
 
 // const listData: any = [];
 // for (let i = 0; i < 23; i++) {
