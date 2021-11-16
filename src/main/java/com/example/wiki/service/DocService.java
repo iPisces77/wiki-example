@@ -20,6 +20,8 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -34,6 +36,8 @@ public class DocService {
   private final ContentMapper contentMapper;
   private final ContentConverter contentConverter;
   private final RedisTemplate redisTemplate;
+  private final WebSocketService webSocketService;
+  private final RabbitTemplate rabbitTemplate;
 
   public DocService(
       DocConverter converter,
@@ -41,13 +45,18 @@ public class DocService {
       DocMapper docMapper,
       ContentConverter contentConverter,
       ContentMapper contentMapper,
-      RedisTemplate redisTemplate) {
+      RedisTemplate redisTemplate,
+      WebSocketService webSocketService,
+      RabbitTemplate rabbitTemplate) {
     this.converter = converter;
     this.snowflake = snowflake;
     this.docMapper = docMapper;
     this.contentConverter = contentConverter;
     this.contentMapper = contentMapper;
     this.redisTemplate = redisTemplate;
+
+    this.webSocketService = webSocketService;
+    this.rabbitTemplate = rabbitTemplate;
   }
 
   public int deleteByPrimaryKey(Long id) {
@@ -159,9 +168,13 @@ public class DocService {
     if (redisTemplate.hasKey(key)) {
       throw new BusinessException(VOTE_REPEAT);
     } else {
-      docMapper.selectByPrimaryKeyForUpdate(id);
+      var doc = docMapper.selectByPrimaryKeyForUpdate(id);
       docMapper.increaseVoteCount(id);
       redisTemplate.opsForValue().set(key, key, 1, TimeUnit.DAYS);
+      // 推送消息
+      var logId = MDC.get("LOG_ID");
+      //      webSocketService.sendInfo("【" + doc.getName() + "】被点赞！", logId);
+      rabbitTemplate.convertAndSend("Vote_Exchange", "VOTE_TOPIC", "【" + doc.getName() + "】被点赞！");
     }
   }
 
