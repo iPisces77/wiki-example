@@ -76,8 +76,11 @@ public class UserController {
 
   @PostMapping("/login")
   public CommonResponse<UserLoginResponse> login(@RequestBody @Validated UserLoginRequest request) {
-    request.setPassword(
-        DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)));
+
+    var password =
+        DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8));
+    LOG.info("密码为" + password);
+    request.setPassword(password);
     var commonResponse = new CommonResponse<UserLoginResponse>();
     var login = userService.login(request);
     var token = UUID.randomUUID().toString();

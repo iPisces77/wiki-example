@@ -1,15 +1,22 @@
 package com.example.wiki.service;
 
+import com.example.wiki.converter.StatisticConverter;
 import com.example.wiki.domain.EbookSnapshot;
 import com.example.wiki.mapper.EbookSnapshotMapper;
+import com.example.wiki.response.StatisticResponse;
 import java.util.List;
-import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EbookSnapshotService {
+public class EBookSnapshotService {
+  private final StatisticConverter statisticConverter;
+  private final EbookSnapshotMapper ebookSnapshotMapper;
 
-  @Resource private EbookSnapshotMapper ebookSnapshotMapper;
+  public EBookSnapshotService(
+      EbookSnapshotMapper ebookSnapshotMapper, StatisticConverter statisticConverter) {
+    this.ebookSnapshotMapper = ebookSnapshotMapper;
+    this.statisticConverter = statisticConverter;
+  }
 
   public int deleteByPrimaryKey(Long id) {
     return ebookSnapshotMapper.deleteByPrimaryKey(id);
@@ -53,5 +60,15 @@ public class EbookSnapshotService {
 
   public int batchInsert(List<EbookSnapshot> list) {
     return ebookSnapshotMapper.batchInsert(list);
+  }
+
+  public void genSnapshot() {
+    ebookSnapshotMapper.genSnapshot();
+  }
+
+  public List<StatisticResponse> getStatistic() {
+    var statistic = ebookSnapshotMapper.getStatistic();
+
+    return statisticConverter.do2voList(statistic);
   }
 }

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.wiki.mapper.EbookSnapshotMapper">
   <resultMap id="BaseResultMap" type="com.example.wiki.domain.EbookSnapshot">
     <!--@mbg.generated-->
     <!--@Table wikidev.ebook_snapshot-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="ebook_id" jdbcType="BIGINT" property="ebookId" />
-    <result column="date" jdbcType="DATE" property="date" />
-    <result column="view_count" jdbcType="INTEGER" property="viewCount" />
-    <result column="vote_count" jdbcType="INTEGER" property="voteCount" />
-    <result column="view_increase" jdbcType="INTEGER" property="viewIncrease" />
-    <result column="vote_increase" jdbcType="INTEGER" property="voteIncrease" />
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="ebook_id" jdbcType="BIGINT" property="ebookId"/>
+    <result column="date" jdbcType="DATE" property="date"/>
+    <result column="view_count" jdbcType="INTEGER" property="viewCount"/>
+    <result column="vote_count" jdbcType="INTEGER" property="voteCount"/>
+    <result column="view_increase" jdbcType="INTEGER" property="viewIncrease"/>
+    <result column="vote_increase" jdbcType="INTEGER" property="voteIncrease"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -18,26 +19,28 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from wikidev.ebook_snapshot
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
-    delete from wikidev.ebook_snapshot
+    delete
+    from wikidev.ebook_snapshot
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id"
+    parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into wikidev.ebook_snapshot (ebook_id, `date`, view_count, 
-      vote_count, view_increase, vote_increase
-      )
-    values (#{ebookId,jdbcType=BIGINT}, #{date,jdbcType=DATE}, #{viewCount,jdbcType=INTEGER}, 
-      #{voteCount,jdbcType=INTEGER}, #{viewIncrease,jdbcType=INTEGER}, #{voteIncrease,jdbcType=INTEGER}
-      )
+    insert into wikidev.ebook_snapshot (ebook_id, `date`, view_count,
+    vote_count, view_increase, vote_increase)
+    values (#{ebookId,jdbcType=BIGINT}, #{date,jdbcType=DATE}, #{viewCount,jdbcType=INTEGER},
+    #{voteCount,jdbcType=INTEGER}, #{viewIncrease,jdbcType=INTEGER},
+    #{voteIncrease,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"
+    parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into wikidev.ebook_snapshot
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -110,11 +113,11 @@
     <!--@mbg.generated-->
     update wikidev.ebook_snapshot
     set ebook_id = #{ebookId,jdbcType=BIGINT},
-      `date` = #{date,jdbcType=DATE},
-      view_count = #{viewCount,jdbcType=INTEGER},
-      vote_count = #{voteCount,jdbcType=INTEGER},
-      view_increase = #{viewIncrease,jdbcType=INTEGER},
-      vote_increase = #{voteIncrease,jdbcType=INTEGER}
+    `date` = #{date,jdbcType=DATE},
+    view_count = #{viewCount,jdbcType=INTEGER},
+    vote_count = #{voteCount,jdbcType=INTEGER},
+    view_increase = #{viewIncrease,jdbcType=INTEGER},
+    vote_increase = #{voteIncrease,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateBatch" parameterType="java.util.List">
@@ -209,18 +212,21 @@
       #{item.id,jdbcType=BIGINT}
     </foreach>
   </update>
-  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map"
+    useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into wikidev.ebook_snapshot
     (ebook_id, `date`, view_count, vote_count, view_increase, vote_increase)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.ebookId,jdbcType=BIGINT}, #{item.date,jdbcType=DATE}, #{item.viewCount,jdbcType=INTEGER}, 
-        #{item.voteCount,jdbcType=INTEGER}, #{item.viewIncrease,jdbcType=INTEGER}, #{item.voteIncrease,jdbcType=INTEGER}
-        )
+      (#{item.ebookId,jdbcType=BIGINT}, #{item.date,jdbcType=DATE},
+      #{item.viewCount,jdbcType=INTEGER},
+      #{item.voteCount,jdbcType=INTEGER}, #{item.viewIncrease,jdbcType=INTEGER},
+      #{item.voteIncrease,jdbcType=INTEGER})
     </foreach>
   </insert>
-  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id"
+    parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into wikidev.ebook_snapshot
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -246,7 +252,7 @@
       #{viewIncrease,jdbcType=INTEGER},
       #{voteIncrease,jdbcType=INTEGER},
     </trim>
-    on duplicate key update 
+    on duplicate key update
     <trim suffixOverrides=",">
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
@@ -259,7 +265,8 @@
       vote_increase = #{voteIncrease,jdbcType=INTEGER},
     </trim>
   </insert>
-  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
+    parameterType="com.example.wiki.domain.EbookSnapshot" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into wikidev.ebook_snapshot
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -309,7 +316,7 @@
         #{voteIncrease,jdbcType=INTEGER},
       </if>
     </trim>
-    on duplicate key update 
+    on duplicate key update
     <trim suffixOverrides=",">
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
@@ -334,4 +341,41 @@
       </if>
     </trim>
   </insert>
+
+  <update id="genSnapshot">
+    insert into wikidev.ebook_snapshot(ebook_id, `date`, view_count, vote_count, view_increase,
+                                       vote_increase)
+    select t1.id, curdate(), 0, 0, 0, 0
+    from wikidev.ebook t1
+    where not exists(select 1
+                     from wikidev.ebook_snapshot t2
+                     where t1.id = t2.ebook_id
+                       and t2.`date` = curdate());
+
+      update wikidev.ebook_snapshot t1, wikidev.ebook t2
+      set t1.view_count = t2.view_count,
+          t1.vote_count = t2.vote_count
+      where t1.`date` = curdate()
+        and t1.ebook_id = t2.id;
+
+      update wikidev.ebook_snapshot t1 left join (select ebook_id, view_count, vote_count
+                                                  from wikidev.ebook_snapshot
+                                                  where `date` = date_sub(curdate(), interval 1 day)) t2
+        on t1.ebook_id = t2.ebook_id
+      set t1.view_increase = (t1.view_count - ifnull(t2.view_count, 0)),
+          t1.vote_increase = (t1.vote_count - ifnull(t2.vote_count, 0))
+      where t1.`date` = curdate();
+  </update>
+
+  <select id="getStatistic" resultType="com.example.wiki.domain.Statistic">
+    select t1.`date`             as `date`,
+           sum(t1.view_count)    as viewCount,
+           sum(t1.vote_count)    as voteCount,
+           sum(t1.view_increase) as viewIncrease,
+           sum(t1.vote_increase) as voteIncrease
+    from wikidev.ebook_snapshot t1
+    where t1.`date` >= date_sub(curdate(), interval 1 day)
+    group by t1.`date`
+    order by t1.`date` asc;
+  </select>
 </mapper>

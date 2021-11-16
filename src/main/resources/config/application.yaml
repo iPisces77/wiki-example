@@ -1,11 +1,11 @@
 server:
-  port: 8081
+  port: 8880
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: 123456
     username: wikidev
-    url: jdbc:mysql://localhost:3306/wikidev?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/wikidev?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
   redis:
     port: 6379
     password: 123456789

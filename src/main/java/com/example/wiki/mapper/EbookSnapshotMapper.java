@@ -1,6 +1,7 @@
 package com.example.wiki.mapper;
 
 import com.example.wiki.domain.EbookSnapshot;
+import com.example.wiki.domain.Statistic;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,4 +65,8 @@ public interface EbookSnapshotMapper {
   int updateBatchSelective(@Param("list") List<EbookSnapshot> list);
 
   int batchInsert(@Param("list") List<EbookSnapshot> list);
+
+  void genSnapshot();
+
+  List<Statistic> getStatistic();
 }
